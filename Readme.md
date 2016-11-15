@@ -1,7 +1,7 @@
 # Личный проект «Угадай мелодию» [![Build status][travis-image]][travis-url]
 
 * Студент: [Александр Зинчук](https://up.htmlacademy.ru/ecmascript/1/user/86999).
-* Наставник: `Неизвестно`.
+* Наставник: `Николай Яшин`.
 
 ---
 
