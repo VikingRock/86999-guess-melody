@@ -25,19 +25,17 @@
     evt.preventDefault();
 
     switch (evt.keyCode) {
-      case 37: current--; break;
-      case 39: current++; break;
+      case 37:
+        if (current > 0) {
+          select(--current);
+        }
+        break;
+      case 39:
+        if (current < slidesLength - 1) {
+          select(++current);
+        }
+        break;
     }
-
-    if (current < 0) {
-      current++;
-      return;
-    } else if (current >= slidesLength) {
-      current--;
-      return;
-    }
-
-    select(current);
   };
 
   select(0);
