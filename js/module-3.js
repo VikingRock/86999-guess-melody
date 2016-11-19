@@ -1,7 +1,6 @@
-import * as dom from 'create-dom-element';
+import * as dom from './create-dom-element';
 
-const moduleString = `\
-  <section class="main main--level main--level-genre">
+const moduleString = `<section class="main main--level main--level-genre">
     <h2 class="title">Выберите инди-рок треки</h2>
     <form class="genre">
       <div class="genre-answer">
@@ -30,8 +29,7 @@ const moduleString = `\
 
       <button class="genre-answer-send" type="submit">Ответить</button>
     </form>
-  </section>\
-`;
+  </section>`;
 
 const moduleThreeElement = dom.getElementFromTemplate(moduleString);
 export default moduleThreeElement;

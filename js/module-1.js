@@ -1,7 +1,6 @@
-import * as dom from 'create-dom-element';
+import * as dom from './create-dom-element';
 
-const moduleString = `\
-  <section class="main main--welcome">
+const moduleString = `<section class="main main--welcome">
     <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
     <button class="main-play">Начать игру</button>
     <h2 class="title main-title">Правила игры</h2>
@@ -11,8 +10,7 @@ const moduleString = `\
       На&nbsp;каждую мелодию всего 3 варианта ответа.<br>
       Удачи!
     </p>
-  </section>\
-`;
+  </section>`;
 
 const moduleOneElement = dom.getElementFromTemplate(moduleString);
 export default moduleOneElement;

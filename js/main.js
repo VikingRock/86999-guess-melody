@@ -1,43 +1,33 @@
-(function () {
+import moduleOneElement from './module-1';
+import moduleTwoElement from './module-2';
+import moduleThreeElement from './module-3';
+import moduleFourElement from './module-4';
 
-  let template = document.querySelector('template');
 
-  let loadTemplate = (templateName) => {
-    let content = template.content ? template.content : template;
-    return content.querySelector(templateName).cloneNode(true);
-  };
+let slides = [moduleOneElement, moduleTwoElement, moduleThreeElement, moduleFourElement];
+let slidesLength = slides.length;
+let current = 0;
 
-  let slides = [
-    loadTemplate('.main--welcome'),
-    loadTemplate('.main--level-artist'),
-    loadTemplate('.main--level-genre'),
-    loadTemplate('.main--result')
-  ];
-  let slidesLength = slides.length;
-  let current = 0;
+let select = (index) => {
+  let mainElement = document.querySelector('.main');
+  mainElement.parentNode.replaceChild(slides[index], mainElement);
+};
 
-  let select = (index) => {
-    let mainElement = document.querySelector('.main');
-    mainElement.parentNode.replaceChild(slides[index], mainElement);
-  };
+document.onkeydown = (evt) => {
+  evt.preventDefault();
 
-  document.onkeydown = (evt) => {
-    evt.preventDefault();
+  switch (evt.keyCode) {
+    case 37:
+      if (current > 0) {
+        select(--current);
+      }
+      break;
+    case 39:
+      if (current < slidesLength - 1) {
+        select(++current);
+      }
+      break;
+  }
+};
 
-    switch (evt.keyCode) {
-      case 37:
-        if (current > 0) {
-          select(--current);
-        }
-        break;
-      case 39:
-        if (current < slidesLength - 1) {
-          select(++current);
-        }
-        break;
-    }
-  };
-
-  select(0);
-})();
-
+select(0);

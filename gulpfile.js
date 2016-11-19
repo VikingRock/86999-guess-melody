@@ -43,12 +43,16 @@ gulp.task('scripts', function () {
     .pipe(webpack({
       devtool: 'source-map',
       module: {
-        loaders: [
-          {test: /\.js$/, loader: 'babel-loader'}
-        ]
+        loaders: [{
+          test: /\.js$/,
+          loader: 'babel-loader?presets[]=es2015'
+        }]
       },
       output: {
         filename: 'main.js'
+      },
+      resolve: {
+        extensions: ['', '.js']
       }
     }))
     .pipe(gulp.dest('build/js/'));

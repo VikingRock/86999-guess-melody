@@ -1,12 +1,11 @@
-import * as dom from 'create-dom-element';
+import * as dom from './create-dom-element';
 
-const moduleString = `\
-  <section class="main main--level main--level-artist">
+const moduleString = `<section class="main main--level main--level-artist">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
       <circle
         cx="390" cy="390" r="370"
         class="timer-line"
-        style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
+        style="filter: url(modules#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
 
       <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
         <span class="timer-value-mins">02</span><!--
@@ -46,8 +45,7 @@ const moduleString = `\
         </div>
       </form>
     </div>
-  </section>\
-`;
+  </section>`;
 
 const moduleTwoElement = dom.getElementFromTemplate(moduleString);
 export default moduleTwoElement;

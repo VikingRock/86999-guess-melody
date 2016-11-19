@@ -1,7 +1,7 @@
 export const getElementFromTemplate = (htmlString) => {
 
   let domElement = document.createElement('div');
-  domElement.innerHTM = htmlString;
+  domElement.innerHTML = htmlString;
 
 
   return domElement.firstChild;
