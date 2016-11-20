@@ -1,5 +1,5 @@
-import * as dom from './create-dom-element';
-import moduleFourElement from './module-4';
+import * as dom from './dom-helpers';
+import resultElement from './template-result';
 
 const moduleString = `<section class="main main--level main--level-genre">
     <h2 class="title">Выберите инди-рок треки</h2>
@@ -32,20 +32,20 @@ const moduleString = `<section class="main main--level main--level-genre">
     </form>
   </section>`;
 
-const moduleThreeElement = dom.getElementFromTemplate(moduleString);
+const genreElement = dom.getElementFromTemplate(moduleString);
 
-const answerButton = moduleThreeElement.querySelector('.genre-answer-send');
+const answerButton = genreElement.querySelector('.genre-answer-send');
 answerButton.disabled = true;
 
 const checkAnswered = () => {
-  if ( moduleThreeElement.querySelector('.genre-answer input:checked') ) {
+  if ( genreElement.querySelector('.genre-answer input:checked') ) {
     answerButton.disabled = false;
   } else {
     answerButton.disabled = true;
   }
 };
 
-const answerBlock = moduleThreeElement.querySelector('.genre');
+const answerBlock = genreElement.querySelector('.genre');
 answerBlock.addEventListener('click', (evt) => {
   if (evt.target.classList.contains('genre-answer-check')) {
     setTimeout(checkAnswered, 4);
@@ -55,7 +55,7 @@ answerBlock.addEventListener('click', (evt) => {
 
 answerButton.addEventListener('click', (evt) => {
   evt.preventDefault();
-  dom.renderElement(moduleFourElement);
+  dom.renderElement(resultElement);
 });
 
-export default moduleThreeElement;
+export default genreElement;

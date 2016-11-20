@@ -1,5 +1,5 @@
-import * as dom from './create-dom-element';
-import moduleTwoElement from './module-2';
+import * as dom from './dom-helpers';
+import artistElement from './template-artist';
 
 const moduleString = `<section class="main main--welcome">
     <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
@@ -13,11 +13,11 @@ const moduleString = `<section class="main main--welcome">
     </p>
   </section>`;
 
-const moduleOneElement = dom.getElementFromTemplate(moduleString);
+const welcomeElement = dom.getElementFromTemplate(moduleString);
 
-const playButton = moduleOneElement.querySelector('.main-play');
+const playButton = welcomeElement.querySelector('.main-play');
 playButton.addEventListener('click', () => {
-  dom.renderElement(moduleTwoElement);
+  dom.renderElement(artistElement);
 });
 
-export default moduleOneElement;
+export default welcomeElement;

@@ -1,5 +1,5 @@
-import * as dom from './create-dom-element';
-import moduleOneElement from './module-1';
+import * as dom from './dom-helpers';
+import welcomeElement from './template-welcome';
 
 const moduleString = `<section class="main main--result">
     <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
@@ -10,11 +10,11 @@ const moduleString = `<section class="main main--result">
     <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
   </section>`;
 
-const moduleFourElement = dom.getElementFromTemplate(moduleString);
+const resultElement = dom.getElementFromTemplate(moduleString);
 
-const replayButton = moduleFourElement.querySelector('.main-replay');
+const replayButton = resultElement.querySelector('.main-replay');
 replayButton.addEventListener('click', (evt) => {
-  dom.renderElement(moduleOneElement);
+  dom.renderElement(welcomeElement);
 });
 
-export default moduleFourElement;
+export default resultElement;
