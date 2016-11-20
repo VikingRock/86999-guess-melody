@@ -1,6 +1,11 @@
 import * as dom from './dom-helpers';
 import resultElement from './template-result';
 
+/**
+ * genre page template
+ * @const
+ * @type {string}
+ */
 const moduleString = `<section class="main main--level main--level-genre">
     <h2 class="title">Выберите инди-рок треки</h2>
     <form class="genre">
@@ -32,11 +37,22 @@ const moduleString = `<section class="main main--level main--level-genre">
     </form>
   </section>`;
 
+/**
+ * genre DOM node
+ * @const
+ * @type {Node}
+ */
 const genreElement = dom.getElementFromTemplate(moduleString);
 
+/**
+ * locating and disabling answer button by default
+ */
 const answerButton = genreElement.querySelector('.genre-answer-send');
 answerButton.disabled = true;
 
+/**
+ * if there is at least one checked checkbox, enable answer button
+ */
 const checkAnswered = () => {
   if ( genreElement.querySelector('.genre-answer input:checked') ) {
     answerButton.disabled = false;
@@ -46,13 +62,20 @@ const checkAnswered = () => {
 };
 
 const answerBlock = genreElement.querySelector('.genre');
+/**
+ * event listener for mouse click on any checkbox;
+ * we need setTimeout, because :checked is set after the click event completion
+ */
 answerBlock.addEventListener('click', (evt) => {
   if (evt.target.classList.contains('genre-answer-check')) {
     setTimeout(checkAnswered, 4);
   }
 });
 
-
+/**
+ * event listener for mouse click on answer button;
+ * if button is enabled, result page is rendered
+ */
 answerButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   dom.renderElement(resultElement);
