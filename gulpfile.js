@@ -12,7 +12,7 @@ const minify = require('gulp-csso');
 const rename = require('gulp-rename');
 const imagemin = require('gulp-imagemin');
 const babel = require('gulp-babel');
-const sourcemaps = require('gulp-sourcemaps');
+const webpack = require('gulp-webpack');
 
 gulp.task('style', function () {
   gulp.src('sass/style.scss')
@@ -38,11 +38,23 @@ gulp.task('style', function () {
 });
 
 gulp.task('scripts', function () {
-  return gulp.src(['js/**/*.js'])
+  return gulp.src(['js/*.js'])
     .pipe(plumber())
-    .pipe(sourcemaps.init())
-    .pipe(babel())
-    .pipe(sourcemaps.write('.'))
+    .pipe(webpack({
+      devtool: 'source-map',
+      module: {
+        loaders: [{
+          test: /\.js$/,
+          loader: 'babel-loader?presets[]=es2015'
+        }]
+      },
+      output: {
+        filename: 'main.js'
+      },
+      resolve: {
+        extensions: ['', '.js']
+      }
+    }))
     .pipe(gulp.dest('build/js/'));
 });
 
