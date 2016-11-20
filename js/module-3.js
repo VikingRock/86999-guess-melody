@@ -35,9 +35,13 @@ const moduleString = `<section class="main main--level main--level-genre">
 const moduleThreeElement = dom.getElementFromTemplate(moduleString);
 
 const answerButton = moduleThreeElement.querySelector('.genre-answer-send');
+//answerButton.disabled = true;
 answerButton.addEventListener('click', (evt) => {
   evt.preventDefault();
-  dom.renderElement(moduleFourElement);
+  if (moduleThreeElement.querySelector('.genre-answer input:checked')) {
+    answerButton.disabled = false;
+    dom.renderElement(moduleFourElement);
+  }
 });
 
 export default moduleThreeElement;
