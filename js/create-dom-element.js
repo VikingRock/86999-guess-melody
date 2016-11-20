@@ -6,3 +6,13 @@ export const getElementFromTemplate = (htmlString) => {
 
   return domElement.firstChild;
 };
+
+export const renderElement = (domElement) => {
+
+
+  let mainElement = document.querySelector('.main');
+  mainElement.parentNode.replaceChild(domElement, mainElement);
+
+  return domElement;
+
+};

@@ -1,4 +1,5 @@
 import * as dom from './create-dom-element';
+import moduleFourElement from './module-4';
 
 const moduleString = `<section class="main main--level main--level-genre">
     <h2 class="title">Выберите инди-рок треки</h2>
@@ -32,4 +33,11 @@ const moduleString = `<section class="main main--level main--level-genre">
   </section>`;
 
 const moduleThreeElement = dom.getElementFromTemplate(moduleString);
+
+const answerButton = moduleThreeElement.querySelector('.genre-answer-send');
+answerButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  dom.renderElement(moduleFourElement);
+});
+
 export default moduleThreeElement;

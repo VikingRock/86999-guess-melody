@@ -1,4 +1,5 @@
 import * as dom from './create-dom-element';
+import moduleTwoElement from './module-2';
 
 const moduleString = `<section class="main main--welcome">
     <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
@@ -13,4 +14,10 @@ const moduleString = `<section class="main main--welcome">
   </section>`;
 
 const moduleOneElement = dom.getElementFromTemplate(moduleString);
+
+const playButton = moduleOneElement.querySelector('.main-play');
+playButton.addEventListener('click', () => {
+  dom.renderElement(moduleTwoElement);
+});
+
 export default moduleOneElement;

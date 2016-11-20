@@ -1,4 +1,5 @@
 import * as dom from './create-dom-element';
+import moduleThreeElement from './module-3';
 
 const moduleString = `<section class="main main--level main--level-artist">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
@@ -48,4 +49,12 @@ const moduleString = `<section class="main main--level main--level-artist">
   </section>`;
 
 const moduleTwoElement = dom.getElementFromTemplate(moduleString);
+
+const answerList = moduleTwoElement.querySelector('.main-list');
+answerList.addEventListener('click', (evt) => {
+  if (evt.target.classList.contains('main-answer') || evt.target.classList.contains('main-answer-preview')) {
+    dom.renderElement(moduleThreeElement);
+  }
+});
+
 export default moduleTwoElement;
