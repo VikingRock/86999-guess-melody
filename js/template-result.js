@@ -1,5 +1,5 @@
-import * as dom from './dom-helpers';
-import welcomeElement from './template-welcome';
+import * as dom from 'dom-helpers';
+import welcomeElement from 'template-welcome';
 
 /**
  * result page template

@@ -1,5 +1,5 @@
-import * as dom from './dom-helpers';
-import resultElement from './template-result';
+import * as dom from 'dom-helpers';
+import resultElement from 'template-result';
 
 /**
  * genre page template

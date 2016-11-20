@@ -1,5 +1,5 @@
-import * as dom from './dom-helpers';
-import artistElement from './template-artist';
+import * as dom from 'dom-helpers';
+import artistElement from 'template-artist';
 
 /**
  * welcome page template

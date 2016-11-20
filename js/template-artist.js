@@ -1,5 +1,5 @@
-import * as dom from './dom-helpers';
-import genreElement from './template-genre';
+import * as dom from 'dom-helpers';
+import genreElement from 'template-genre';
 
 /**
  * artist page template

@@ -13,6 +13,7 @@ const rename = require('gulp-rename');
 const imagemin = require('gulp-imagemin');
 const babel = require('gulp-babel');
 const webpack = require('gulp-webpack');
+const path = require('path');
 
 gulp.task('style', function () {
   gulp.src('sass/style.scss')
@@ -52,7 +53,8 @@ gulp.task('scripts', function () {
         filename: 'main.js'
       },
       resolve: {
-        extensions: ['', '.js']
+        extensions: ['', '.js'],
+        root: path.resolve('./js')
       }
     }))
     .pipe(gulp.dest('build/js/'));
