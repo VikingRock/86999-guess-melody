@@ -58,9 +58,9 @@ const moduleString = `<section class="main main--level main--level-artist">
  * @const
  * @type {Node}
  */
-const artistElement = dom.getElementFromTemplate(moduleString);
+const element = dom.getElementFromTemplate(moduleString);
 
-const answerList = artistElement.querySelector('.main-list');
+const answerList = element.querySelector('.main-list');
 /**
  * event listener for mouse click on artist element
  * when clicked, the genre page is rendered
@@ -71,4 +71,4 @@ answerList.addEventListener('click', (evt) => {
   }
 });
 
-export default artistElement;
+export default element;

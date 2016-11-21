@@ -20,9 +20,9 @@ const moduleString = `<section class="main main--result">
  * @const
  * @type {Node}
  */
-const resultElement = dom.getElementFromTemplate(moduleString);
+const element = dom.getElementFromTemplate(moduleString);
 
-const replayButton = resultElement.querySelector('.main-replay');
+const replayButton = element.querySelector('.main-replay');
 /**
  * event listener for mouse click on replay button;
  * if clicked, welcome page is rendered
@@ -31,4 +31,4 @@ replayButton.addEventListener('click', (evt) => {
   dom.renderElement(welcomeElement);
 });
 
-export default resultElement;
+export default element;

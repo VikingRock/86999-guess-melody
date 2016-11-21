@@ -23,9 +23,9 @@ const moduleString = `<section class="main main--welcome">
  * @const
  * @type {Node}
  */
-const welcomeElement = dom.getElementFromTemplate(moduleString);
+const element = dom.getElementFromTemplate(moduleString);
 
-const playButton = welcomeElement.querySelector('.main-play');
+const playButton = element.querySelector('.main-play');
 /**
  * event listener for mouse click on play button
  * when clicked, the artist page is rendered
@@ -34,4 +34,4 @@ playButton.addEventListener('click', () => {
   dom.renderElement(artistElement);
 });
 
-export default welcomeElement;
+export default element;

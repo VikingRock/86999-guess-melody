@@ -42,33 +42,32 @@ const moduleString = `<section class="main main--level main--level-genre">
  * @const
  * @type {Node}
  */
-const genreElement = dom.getElementFromTemplate(moduleString);
+const element = dom.getElementFromTemplate(moduleString);
 
 /**
  * locating and disabling answer button by default
  */
-const answerButton = genreElement.querySelector('.genre-answer-send');
+const answerButton = element.querySelector('.genre-answer-send');
 answerButton.disabled = true;
 
 /**
  * if there is at least one checked checkbox, enable answer button
  */
 const checkAnswered = () => {
-  if ( genreElement.querySelector('.genre-answer input:checked') ) {
+  if ( element.querySelector('.genre-answer input:checked') ) {
     answerButton.disabled = false;
   } else {
     answerButton.disabled = true;
   }
 };
 
-const answerBlock = genreElement.querySelector('.genre');
+const answerBlock = element.querySelector('.genre');
 /**
- * event listener for mouse click on any checkbox;
- * we need setTimeout, because :checked is set after the click event completion
+ * event listener for any checkbox state change;
  */
-answerBlock.addEventListener('click', (evt) => {
-  if (evt.target.classList.contains('genre-answer-check')) {
-    setTimeout(checkAnswered, 4);
+answerBlock.addEventListener('change', (evt) => {
+  if (evt.target.getAttribute('name') === 'answer') {
+    checkAnswered();
   }
 });
 
@@ -81,4 +80,4 @@ answerButton.addEventListener('click', (evt) => {
   dom.renderElement(resultElement);
 });
 
-export default genreElement;
+export default element;
