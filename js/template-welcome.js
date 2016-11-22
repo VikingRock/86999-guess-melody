@@ -1,5 +1,11 @@
-import * as dom from './create-dom-element';
+import * as dom from 'dom-helpers';
+import artistElement from 'template-artist';
 
+/**
+ * welcome page template
+ * @const
+ * @type {string}
+ */
 const moduleString = `<section class="main main--welcome">
     <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
     <button class="main-play">Начать игру</button>
@@ -12,5 +18,20 @@ const moduleString = `<section class="main main--welcome">
     </p>
   </section>`;
 
-const moduleOneElement = dom.getElementFromTemplate(moduleString);
-export default moduleOneElement;
+/**
+ * welcome DOM node
+ * @const
+ * @type {Node}
+ */
+const element = dom.getElementFromTemplate(moduleString);
+
+const playButton = element.querySelector('.main-play');
+/**
+ * event listener for mouse click on play button
+ * when clicked, the artist page is rendered
+ */
+playButton.addEventListener('click', () => {
+  dom.renderElement(artistElement);
+});
+
+export default element;

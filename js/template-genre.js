@@ -1,5 +1,11 @@
-import * as dom from './create-dom-element';
+import * as dom from 'dom-helpers';
+import resultElement from 'template-result';
 
+/**
+ * genre page template
+ * @const
+ * @type {string}
+ */
 const moduleString = `<section class="main main--level main--level-genre">
     <h2 class="title">Выберите инди-рок треки</h2>
     <form class="genre">
@@ -31,5 +37,47 @@ const moduleString = `<section class="main main--level main--level-genre">
     </form>
   </section>`;
 
-const moduleThreeElement = dom.getElementFromTemplate(moduleString);
-export default moduleThreeElement;
+/**
+ * genre DOM node
+ * @const
+ * @type {Node}
+ */
+const element = dom.getElementFromTemplate(moduleString);
+
+/**
+ * locating and disabling answer button by default
+ */
+const answerButton = element.querySelector('.genre-answer-send');
+answerButton.disabled = true;
+
+/**
+ * if there is at least one checked checkbox, enable answer button
+ */
+const checkAnswered = () => {
+  if ( element.querySelector('.genre-answer input:checked') === null ) {
+    answerButton.disabled = true;
+  } else {
+    answerButton.disabled = false;
+  }
+};
+
+const answerBlock = element.querySelector('.genre');
+/**
+ * event listener for any checkbox state change;
+ */
+answerBlock.addEventListener('change', (evt) => {
+  if (evt.target.getAttribute('name') === 'answer') {
+    checkAnswered();
+  }
+});
+
+/**
+ * event listener for mouse click on answer button;
+ * if button is enabled, result page is rendered
+ */
+answerButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  dom.renderElement(resultElement);
+});
+
+export default element;

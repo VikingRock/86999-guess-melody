@@ -1,5 +1,11 @@
-import * as dom from './create-dom-element';
+import * as dom from 'dom-helpers';
+import genreElement from 'template-genre';
 
+/**
+ * artist page template
+ * @const
+ * @type {string}
+ */
 const moduleString = `<section class="main main--level main--level-artist">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
       <circle
@@ -47,5 +53,22 @@ const moduleString = `<section class="main main--level main--level-artist">
     </div>
   </section>`;
 
-const moduleTwoElement = dom.getElementFromTemplate(moduleString);
-export default moduleTwoElement;
+/**
+ * artist DOM node
+ * @const
+ * @type {Node}
+ */
+const element = dom.getElementFromTemplate(moduleString);
+
+const answerList = element.querySelector('.main-list');
+/**
+ * event listener for mouse click on artist element
+ * when clicked, the genre page is rendered
+ */
+answerList.addEventListener('click', (evt) => {
+  if (evt.target.classList.contains('main-answer') || evt.target.classList.contains('main-answer-preview')) {
+    dom.renderElement(genreElement);
+  }
+});
+
+export default element;
