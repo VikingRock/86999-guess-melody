@@ -54,10 +54,10 @@ answerButton.disabled = true;
  * if there is at least one checked checkbox, enable answer button
  */
 const checkAnswered = () => {
-  if ( element.querySelector('.genre-answer input:checked') ) {
-    answerButton.disabled = false;
-  } else {
+  if ( element.querySelector('.genre-answer input:checked') === null ) {
     answerButton.disabled = true;
+  } else {
+    answerButton.disabled = false;
   }
 };
 
