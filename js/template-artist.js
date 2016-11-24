@@ -17,15 +17,18 @@ const artist = {
     answer_options: [
       {
         artist_name: 'Пелагея',
-        artist_image: '/img/pelageya.jpeg'
+        artist_image: '/img/pelageya.jpeg',
+        is_correct: true
       },
       {
         artist_name: 'Краснознаменная дивизия имени моей бабушки',
-        artist_image: '/img/babushka.jpeg'
+        artist_image: '/img/babushka.jpeg',
+        is_correct: false
       },
       {
         artist_name: 'Lorde',
-        artist_image: '/img/lorde.jpeg'
+        artist_image: '/img/lorde.jpeg',
+        is_correct: false
       }
     ]
   }

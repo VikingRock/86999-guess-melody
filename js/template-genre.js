@@ -9,10 +9,22 @@ import resultElement from 'template-result';
 const genre = {
   question: 'Выберите инди-рок треки',
   answers: [
-    '/audio/1.mp3',
-    '/audio/2.mp3',
-    '/audio/3.mp3',
-    '/audio/4.mp3'
+    {
+      audio: '/audio/1.mp3',
+      is_correct: true
+    },
+    {
+      audio: '/audio/2.mp3',
+      is_correct: false
+    },
+    {
+      audio: '/audio/3.mp3',
+      is_correct: true
+    },
+    {
+      audio: '/audio/4.mp3',
+      is_correct: false
+    }
   ],
   submit: 'Ответить'
 };
@@ -20,11 +32,11 @@ const genre = {
 /**
  * renders option block from template
  * @param {number} index
- * @param {string} audio
+ * @param {string} answer
  * @return {string} rendered html
  */
-const renderOption = (index, audio) => `<div class="genre-answer">
-        <div class="player-wrapper" data-audio="${audio}"></div>
+const renderOption = (index, answer) => `<div class="genre-answer">
+        <div class="player-wrapper" data-audio="${answer.audio}"></div>
         <input type="checkbox" name="answer" value="answer-${index + 1}" id="a-${index + 1}">
         <label class="genre-answer-check" for="a-${index + 1}"></label>
       </div>`;
