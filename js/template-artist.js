@@ -82,7 +82,9 @@ const moduleString = `<section class="main main--level main--level-artist">
       <h2 class="title main-title">${artist.question.text}</h2>
       <div class="player-wrapper"></div>
       <form class="main-list">
-        ${artist.question.answer_options.map((it, idx) => renderOption(idx, it.artist_name, it.artist_image))}
+        ${artist.question.answer_options
+                .map((it, idx) => renderOption(idx, it.artist_name, it.artist_image))
+                .join('')}
       </form>
     </div>
   </section>`;
