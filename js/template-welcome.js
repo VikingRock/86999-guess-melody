@@ -52,6 +52,7 @@ const playButton = element.querySelector('.main-play');
  */
 playButton.addEventListener('click', () => {
   dom.renderElement(artistElement);
+  window.initializeCountdown();
 });
 
 export default element;
