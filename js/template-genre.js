@@ -7,26 +7,37 @@ import resultElement from 'template-result';
  * @type {object}
  */
 const genre = {
-  question: 'Выберите инди-рок треки',
-  answers: [
-    {
-      audio: '/audio/1.mp3',
-      is_correct: true
-    },
-    {
-      audio: '/audio/2.mp3',
-      is_correct: false
-    },
-    {
-      audio: '/audio/3.mp3',
-      is_correct: true
-    },
-    {
-      audio: '/audio/4.mp3',
-      is_correct: false
-    }
-  ],
-  submit: 'Ответить'
+  question: {
+    text: 'Выберите инди-рок треки',
+    data: null,
+    answers: [
+      {
+        isCorrect: true,
+        data: {
+          audio: '/audio/1.mp3'
+        }
+      },
+      {
+        isCorrect: false,
+        data: {
+          audio: '/audio/2.mp3'
+        }
+      },
+      {
+        isCorrect: true,
+        data: {
+          audio: '/audio/3.mp3'
+        }
+      },
+      {
+        isCorrect: false,
+        data: {
+          audio: '/audio/4.mp3'
+        }
+      }
+    ]
+  },
+  submitButton: 'Ответить'
 };
 
 /**
@@ -47,12 +58,12 @@ const renderOption = (index, answer) => `<div class="genre-answer">
  * @type {string}
  */
 const moduleString = `<section class="main main--level main--level-genre">
-    <h2 class="title">${genre.question}</h2>
+    <h2 class="title">${genre.question.text}</h2>
     <form class="genre">
-      ${genre.answers
-              .map((it, idx) => renderOption(idx, it))
+      ${genre.question.answers
+              .map((item, idx) => renderOption(idx, item))
               .join('')}
-      <button class="genre-answer-send" type="submit">${genre.submit}</button>
+      <button class="genre-answer-send" type="submitButton">${genre.submitButton}</button>
     </form>
   </section>`;
 
@@ -69,11 +80,14 @@ const element = dom.getElementFromTemplate(moduleString);
 const answerButton = element.querySelector('.genre-answer-send');
 answerButton.disabled = true;
 
+let checkedAnswerOptions = [];
+
 /**
  * if there is at least one checked checkbox, enable answer button
  */
 const checkAnswered = () => {
-  if ( element.querySelector('.genre-answer input:checked') === null ) {
+  checkedAnswerOptions = element.querySelectorAll('.genre-answer input:checked');
+  if ( checkedAnswerOptions.length === 0) {
     answerButton.disabled = true;
   } else {
     answerButton.disabled = false;
@@ -93,9 +107,14 @@ answerBlock.addEventListener('change', (evt) => {
 /**
  * event listener for mouse click on answer button;
  * if button is enabled, result page is rendered
+ * and all form elements state is set to default
  */
 answerButton.addEventListener('click', (evt) => {
   evt.preventDefault();
+  for (const item of checkedAnswerOptions) {
+    item.checked = false;
+  }
+  answerButton.disabled = true;
   dom.renderElement(resultElement);
 });
 

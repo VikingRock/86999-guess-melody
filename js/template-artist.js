@@ -13,22 +13,30 @@ const artist = {
   },
   question: {
     text: 'Кто исполняет эту песню?',
-    audio: '/audio/42.mp3',
-    answer_options: [
+    data: {
+      audio: '/audio/42.mp3'
+    },
+    answers: [
       {
-        artist_name: 'Пелагея',
-        artist_image: '/img/pelageya.jpeg',
-        is_correct: true
+        isCorrect: true,
+        data: {
+          name: 'Пелагея',
+          image: '/img/pelageya.jpeg'
+        }
       },
       {
-        artist_name: 'Краснознаменная дивизия имени моей бабушки',
-        artist_image: '/img/babushka.jpeg',
-        is_correct: false
+        isCorrect: false,
+        data: {
+          name: 'Краснознаменная дивизия имени моей бабушки',
+          image: '/img/babushka.jpeg'
+        }
       },
       {
-        artist_name: 'Lorde',
-        artist_image: '/img/lorde.jpeg',
-        is_correct: false
+        isCorrect: false,
+        data: {
+          name: 'Lorde',
+          image: '/img/lorde.jpeg'
+        }
       }
     ]
   }
@@ -85,8 +93,8 @@ const moduleString = `<section class="main main--level main--level-artist">
       <h2 class="title main-title">${artist.question.text}</h2>
       <div class="player-wrapper"></div>
       <form class="main-list">
-        ${artist.question.answer_options
-                .map((it, idx) => renderOption(idx, it.artist_name, it.artist_image))
+        ${artist.question.answers
+                .map((item, idx) => renderOption(idx, item.data.name, item.data.image))
                 .join('')}
       </form>
     </div>
@@ -100,12 +108,14 @@ const moduleString = `<section class="main main--level main--level-artist">
 const element = dom.getElementFromTemplate(moduleString);
 
 const answerList = element.querySelector('.main-list');
+
 /**
  * event listener for mouse click on artist element
  * when clicked, the genre page is rendered
  */
 answerList.addEventListener('click', (evt) => {
   if (evt.target.classList.contains('main-answer') || evt.target.classList.contains('main-answer-preview')) {
+    window.stopFn();
     dom.renderElement(genreElement);
   }
 });

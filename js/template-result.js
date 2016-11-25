@@ -8,7 +8,7 @@ import welcomeElement from 'template-welcome';
  */
 const stats = {
   time: 2,
-  melodies_count: 4,
+  melodiesCount: 4,
   percents: 80
 };
 
@@ -18,22 +18,22 @@ const stats = {
  * @type {object}
  */
 const result = {
-  game_name: 'Угадай мелодию',
+  gameName: 'Угадай мелодию',
   content: {
     title: 'Вы настоящий меломан!',
-    stats_text: `За ${stats.time} минуты<br>вы отгадали ${stats.melodies_count} мелодии`,
-    comparison_text: `Это лучше чем у ${stats.percents}% игроков`
+    statsText: `За ${stats.time} минуты<br>вы отгадали ${stats.melodiesCount} мелодии`,
+    comparisonText: `Это лучше чем у ${stats.percents}% игроков`
   },
-  play_again: 'Сыграть ещё раз'
+  replayButton: 'Сыграть ещё раз'
 };
 
-const logo = `<section class="logo" title="${result.game_name}"><h1>${result.game_name}</h1></section>`;
+const logo = `<section class="logo" title="${result.gameName}"><h1>${result.gameName}</h1></section>`;
 
 const content = `<h2 class="title">${result.content.title}</h2>
-    <div class="main-stat">${result.content.stats_text}</div>
-    <span class="main-comparison">${result.content.comparison_text}</span>`;
+    <div class="main-stat">${result.content.statsText}</div>
+    <span class="main-comparison">${result.content.comparisonText}</span>`;
 
-const button = `<span role="button" tabindex="0" class="main-replay">${result.play_again}</span>`;
+const button = `<span role="button" tabindex="0" class="main-replay">${result.replayButton}</span>`;
 
 /**
  * result page template
