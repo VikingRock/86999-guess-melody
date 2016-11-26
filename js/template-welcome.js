@@ -1,58 +1,85 @@
 import * as dom from 'dom-helpers';
-import artistElement from 'template-artist';
+import makeElement from 'template-artist';
 
 /**
- * welcome page data structure
+ * artist page data structure
  * @const
  * @type {object}
  */
-const welcome = {
-  gameName: 'Угадай мелодию',
-  content: {
-    title: 'Правила игры',
-    text: `Правила просты&nbsp;— за&nbsp;2 минуты дать максимальное количество правильных ответов.
-          На&nbsp;каждую мелодию всего 3 варианта ответа. Удачи!`
+const artist = {
+  text: 'Кто исполняет эту песню?',
+  data: {
+    audio: '/audio/42.mp3'
   },
-  playButton: 'Начать игру'
+  timer: {
+    minutes: 2,
+    seconds: 0
+  },
+  answers: [
+    {
+      isCorrect: true,
+      data: {
+        name: 'Пелагея',
+        image: '/img/pelageya.jpeg'
+      }
+    },
+    {
+      isCorrect: false,
+      data: {
+        name: 'Краснознаменная дивизия имени моей бабушки',
+        image: '/img/babushka.jpeg'
+      }
+    },
+    {
+      isCorrect: false,
+      data: {
+        name: 'Lorde',
+        image: '/img/lorde.jpeg'
+      }
+    }
+  ]
 };
 
-const logo = `<section class="logo" title="${welcome.gameName}"><h1>${welcome.gameName}</h1></section>`;
+export default (inputData) => {
 
-const button = `<button class="main-play">${welcome.playButton}</button>`;
+  const logo = `<section class="logo" title="${inputData.gameName}"><h1>${inputData.gameName}</h1></section>`;
 
-const content = `
-  <h2 class="title main-title">${welcome.content.title}</h2>
+  const button = `<button class="main-play">${inputData.playButton}</button>`;
+
+  const content = `
+  <h2 class="title main-title">${inputData.content.title}</h2>
   <p class="text main-text">
-    ${welcome.content.text}
+    ${inputData.content.text}
   </p>`;
 
 
-/**
- * welcome page template
- * @const
- * @type {string}
- */
-const moduleString = `<section class="main main--welcome">
+  /**
+   * welcome page template
+   * @const
+   * @type {string}
+   */
+  const moduleString = `<section class="main main--welcome">
     ${logo}
     ${button}
     ${content}
   </section>`;
 
-/**
- * welcome DOM node
- * @const
- * @type {Node}
- */
-const element = dom.getElementFromTemplate(moduleString);
+  /**
+   * welcome DOM node
+   * @const
+   * @type {Node}
+   */
+  const element = dom.getElementFromTemplate(moduleString);
 
-const playButton = element.querySelector('.main-play');
-/**
- * event listener for mouse click on play button
- * when clicked, the artist page is rendered
- */
-playButton.addEventListener('click', () => {
-  dom.renderElement(artistElement);
-  window.stopFn = window.initializeCountdown();
-});
+  const playButton = element.querySelector('.main-play');
+  /**
+   * event listener for mouse click on play button
+   * when clicked, the artist page is rendered
+   */
+  playButton.addEventListener('click', () => {
+    dom.renderElement(makeElement(artist));
+    window.stopFn = window.initializeCountdown();
+  });
 
-export default element;
+  return element;
+};
