@@ -68,15 +68,14 @@ const timer = `<svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 
 /**
  * renders option block from template
  * @param {number} index
- * @param {string} name
- * @param {string} image
+ * @param {object} data - contains option's image and name
  * @return {string} rendered html
  */
-const renderOption = (index, name, image) => `<div class="main-answer-wrapper">
+const renderOption = (index, data) => `<div class="main-answer-wrapper">
           <input class="main-answer-r" type="radio" id="answer-${index + 1}" name="answer" value="val-${index + 1}" />
           <label class="main-answer" for="answer-${index + 1}">
-            <img class="main-answer-preview" src="${image}">
-            ${name}
+            <img class="main-answer-preview" src="${data.image}">
+            ${data.name}
           </label>
         </div>`;
 
@@ -94,7 +93,7 @@ const moduleString = `<section class="main main--level main--level-artist">
       <div class="player-wrapper"></div>
       <form class="main-list">
         ${artist.question.answers
-                .map((item, idx) => renderOption(idx, item.data.name, item.data.image))
+                .map((item, idx) => renderOption(idx, item.data))
                 .join('')}
       </form>
     </div>

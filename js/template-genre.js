@@ -43,11 +43,11 @@ const genre = {
 /**
  * renders option block from template
  * @param {number} index
- * @param {string} answer
+ * @param {object} data - contains option's audio
  * @return {string} rendered html
  */
-const renderOption = (index, answer) => `<div class="genre-answer">
-        <div class="player-wrapper" data-audio="${answer.audio}"></div>
+const renderOption = (index, data) => `<div class="genre-answer">
+        <div class="player-wrapper" data-audio="${data.audio}"></div>
         <input type="checkbox" name="answer" value="answer-${index + 1}" id="a-${index + 1}">
         <label class="genre-answer-check" for="a-${index + 1}"></label>
       </div>`;
@@ -61,7 +61,7 @@ const moduleString = `<section class="main main--level main--level-genre">
     <h2 class="title">${genre.question.text}</h2>
     <form class="genre">
       ${genre.question.answers
-              .map((item, idx) => renderOption(idx, item))
+              .map((item, idx) => renderOption(idx, item.data))
               .join('')}
       <button class="genre-answer-send" type="submitButton">${genre.submitButton}</button>
     </form>
