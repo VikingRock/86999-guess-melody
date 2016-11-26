@@ -1,44 +1,5 @@
 import * as dom from 'dom-helpers';
-import makeElement from 'template-artist';
-
-/**
- * artist page data structure
- * @const
- * @type {object}
- */
-const artist = {
-  text: 'Кто исполняет эту песню?',
-  data: {
-    audio: '/audio/42.mp3'
-  },
-  timer: {
-    minutes: 2,
-    seconds: 0
-  },
-  answers: [
-    {
-      isCorrect: true,
-      data: {
-        name: 'Пелагея',
-        image: '/img/pelageya.jpeg'
-      }
-    },
-    {
-      isCorrect: false,
-      data: {
-        name: 'Краснознаменная дивизия имени моей бабушки',
-        image: '/img/babushka.jpeg'
-      }
-    },
-    {
-      isCorrect: false,
-      data: {
-        name: 'Lorde',
-        image: '/img/lorde.jpeg'
-      }
-    }
-  ]
-};
+import route from 'game';
 
 export default (inputData) => {
 
@@ -77,8 +38,7 @@ export default (inputData) => {
    * when clicked, the artist page is rendered
    */
   playButton.addEventListener('click', () => {
-    dom.renderElement(makeElement(artist));
-    window.stopFn = window.initializeCountdown();
+    route(0);
   });
 
   return element;

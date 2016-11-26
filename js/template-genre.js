@@ -1,25 +1,7 @@
 import * as dom from 'dom-helpers';
-import makeElement from 'template-result';
+import route from 'game';
 
-/**
- * result page data structure
- * @const
- * @type {object}
- */
-const result = {
-  gameName: 'Угадай мелодию',
-  content: {
-    title: 'Вы настоящий меломан!'
-  },
-  stats: {
-    time: 2,
-    melodiesCount: 4,
-    percents: 80
-  },
-  replayButton: 'Сыграть ещё раз'
-};
-
-export default (inputData) => {
+export default (inputData, questionNumber) => {
 
   /**
    * renders option block from template
@@ -97,7 +79,7 @@ export default (inputData) => {
       item.checked = false;
     }
     answerButton.disabled = true;
-    dom.renderElement(makeElement(result));
+    route(++questionNumber);
   });
 
   return element;

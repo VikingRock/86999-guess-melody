@@ -1,43 +1,7 @@
 import * as dom from 'dom-helpers';
-import makeElement from 'template-genre';
+import route from 'game';
 
-/**
- * question data structure
- * @const
- * @type {object}
- */
-const genre = {
-  text: 'Выберите инди-рок треки',
-  data: null,
-  answers: [
-    {
-      isCorrect: true,
-      data: {
-        audio: '/audio/1.mp3'
-      }
-    },
-    {
-      isCorrect: false,
-      data: {
-        audio: '/audio/2.mp3'
-      }
-    },
-    {
-      isCorrect: true,
-      data: {
-        audio: '/audio/3.mp3'
-      }
-    },
-    {
-      isCorrect: false,
-      data: {
-        audio: '/audio/4.mp3'
-      }
-    }
-  ]
-};
-
-export default (inputData) => {
+export default (inputData, questionNumber) => {
 
   /**
    * adds a zero before number if it is less than 10
@@ -111,8 +75,7 @@ export default (inputData) => {
    */
   answerList.addEventListener('click', (evt) => {
     if (evt.target.classList.contains('main-answer') || evt.target.classList.contains('main-answer-preview')) {
-      window.stopFn();
-      dom.renderElement(makeElement(genre));
+      route(++questionNumber);
     }
   });
 
