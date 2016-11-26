@@ -70,7 +70,7 @@ export default (inputData, questionNumber) => {
 
   /**
    * event listener for mouse click on answer button;
-   * if button is enabled, result page is rendered
+   * if button is enabled, next question is rendered
    * and all form elements state is set to default
    */
   answerButton.addEventListener('click', (evt) => {

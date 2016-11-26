@@ -38,6 +38,8 @@ const redrawTimer = (timer, animation) => {
   return timer;
 };
 
+const event = document.createEvent('Event');
+event.initEvent('timer-end', true, true);
 
 window.initializeCountdown = () => {
   const element = document.querySelector('.timer-line');
@@ -47,5 +49,8 @@ window.initializeCountdown = () => {
   return window.animation.animate(window.animation.getAnimation(0, 1000, 120), (animation) => {
     redrawCircle(element, radius, animation);
     redrawTimer(timer, animation);
-  }, () => timer.classList.add('timer-value--finished'));
+  }, () => {
+    timer.classList.add('timer-value--finished');
+    document.body.dispatchEvent(event);
+  });
 };

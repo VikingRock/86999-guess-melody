@@ -70,14 +70,28 @@ export default (inputData, questionNumber) => {
   const answerList = element.querySelector('.main-list');
 
   /**
+   * calling next question from game.js
+   * and removing timer-end listener
+   */
+  const goToNextQuestion = () => {
+    route(++questionNumber);
+    document.body.removeEventListener('timer-end', goToNextQuestion);
+  };
+
+  /**
    * event listener for mouse click on artist element
-   * when clicked, the genre page is rendered
+   * when clicked, the next question is rendered
    */
   answerList.addEventListener('click', (evt) => {
     if (evt.target.classList.contains('main-answer') || evt.target.classList.contains('main-answer-preview')) {
-      route(++questionNumber);
+      goToNextQuestion();
     }
   });
+
+  /**
+   * when timer has ended - switch to next question
+   */
+  document.body.addEventListener('timer-end', goToNextQuestion, false);
 
   return element;
 };
