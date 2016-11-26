@@ -2,38 +2,68 @@ import * as dom from 'dom-helpers';
 import resultElement from 'template-result';
 
 /**
+ * genre page data structure
+ * @const
+ * @type {object}
+ */
+const genre = {
+  question: {
+    text: 'Выберите инди-рок треки',
+    data: null,
+    answers: [
+      {
+        isCorrect: true,
+        data: {
+          audio: '/audio/1.mp3'
+        }
+      },
+      {
+        isCorrect: false,
+        data: {
+          audio: '/audio/2.mp3'
+        }
+      },
+      {
+        isCorrect: true,
+        data: {
+          audio: '/audio/3.mp3'
+        }
+      },
+      {
+        isCorrect: false,
+        data: {
+          audio: '/audio/4.mp3'
+        }
+      }
+    ]
+  },
+  submitButton: 'Ответить'
+};
+
+/**
+ * renders option block from template
+ * @param {number} index
+ * @param {object} data - contains option's audio
+ * @return {string} rendered html
+ */
+const renderOption = (index, data) => `<div class="genre-answer">
+        <div class="player-wrapper" data-audio="${data.audio}"></div>
+        <input type="checkbox" name="answer" value="answer-${index + 1}" id="a-${index + 1}">
+        <label class="genre-answer-check" for="a-${index + 1}"></label>
+      </div>`;
+
+/**
  * genre page template
  * @const
  * @type {string}
  */
 const moduleString = `<section class="main main--level main--level-genre">
-    <h2 class="title">Выберите инди-рок треки</h2>
+    <h2 class="title">${genre.question.text}</h2>
     <form class="genre">
-      <div class="genre-answer">
-        <div class="player-wrapper"></div>
-        <input type="checkbox" name="answer" value="answer-1" id="a-1">
-        <label class="genre-answer-check" for="a-1"></label>
-      </div>
-
-      <div class="genre-answer">
-        <div class="player-wrapper"></div>
-        <input type="checkbox" name="answer" value="answer-1" id="a-2">
-        <label class="genre-answer-check" for="a-2"></label>
-      </div>
-
-      <div class="genre-answer">
-        <div class="player-wrapper"></div>
-        <input type="checkbox" name="answer" value="answer-1" id="a-3">
-        <label class="genre-answer-check" for="a-3"></label>
-      </div>
-
-      <div class="genre-answer">
-        <div class="player-wrapper"></div>
-        <input type="checkbox" name="answer" value="answer-1" id="a-4">
-        <label class="genre-answer-check" for="a-4"></label>
-      </div>
-
-      <button class="genre-answer-send" type="submit">Ответить</button>
+      ${genre.question.answers
+              .map((item, idx) => renderOption(idx, item.data))
+              .join('')}
+      <button class="genre-answer-send" type="submitButton">${genre.submitButton}</button>
     </form>
   </section>`;
 
@@ -50,11 +80,14 @@ const element = dom.getElementFromTemplate(moduleString);
 const answerButton = element.querySelector('.genre-answer-send');
 answerButton.disabled = true;
 
+let checkedAnswerOptions = [];
+
 /**
  * if there is at least one checked checkbox, enable answer button
  */
 const checkAnswered = () => {
-  if ( element.querySelector('.genre-answer input:checked') === null ) {
+  checkedAnswerOptions = element.querySelectorAll('.genre-answer input:checked');
+  if ( checkedAnswerOptions.length === 0) {
     answerButton.disabled = true;
   } else {
     answerButton.disabled = false;
@@ -74,9 +107,14 @@ answerBlock.addEventListener('change', (evt) => {
 /**
  * event listener for mouse click on answer button;
  * if button is enabled, result page is rendered
+ * and all form elements state is set to default
  */
 answerButton.addEventListener('click', (evt) => {
   evt.preventDefault();
+  for (const item of checkedAnswerOptions) {
+    item.checked = false;
+  }
+  answerButton.disabled = true;
   dom.renderElement(resultElement);
 });
 
