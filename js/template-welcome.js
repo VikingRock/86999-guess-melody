@@ -1,5 +1,5 @@
 import * as dom from 'dom-helpers';
-import route from 'game';
+import nextQuestion from 'game';
 
 export default (inputData) => {
 
@@ -35,10 +35,10 @@ export default (inputData) => {
   const playButton = element.querySelector('.main-play');
   /**
    * event listener for mouse click on play button
-   * when clicked, the artist page is rendered
+   * when clicked, the first question is rendered
    */
   playButton.addEventListener('click', () => {
-    route(0);
+    nextQuestion();
   });
 
   return element;

@@ -1,5 +1,5 @@
 import * as dom from 'dom-helpers';
-import route from 'game';
+import nextQuestion from 'game';
 
 export default (inputData, questionNumber) => {
 
@@ -74,7 +74,7 @@ export default (inputData, questionNumber) => {
    * and removing timer-end listener
    */
   const goToNextQuestion = () => {
-    route(++questionNumber);
+    nextQuestion();
     document.body.removeEventListener('timer-end', goToNextQuestion);
   };
 

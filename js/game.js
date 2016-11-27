@@ -1,17 +1,17 @@
 import * as dom from 'dom-helpers';
-import makeArtistElement from 'template-artist';
-import makeGenreElement from 'template-genre';
-import makeResultElement from 'template-result';
+import createArtistElement from 'template-artist';
+import createGenreElement from 'template-genre';
+import createResultElement from 'template-result';
 
-/** @enum {string} */
-const Types = {
+/** @enum {object} */
+const TYPES = {
   ARTIST: {
     name: 'artist',
-    renderer: makeArtistElement
+    renderer: createArtistElement
   },
   GENRE: {
     name: 'genre',
-    renderer: makeGenreElement
+    renderer: createGenreElement
   }
 };
 
@@ -23,7 +23,7 @@ const Types = {
 const game = {
   questions: [
     {
-      type: Types.ARTIST,
+      type: TYPES.ARTIST,
       text: 'Кто исполняет эту песню?',
       data: {
         audio: '/audio/42.mp3'
@@ -57,7 +57,7 @@ const game = {
       ]
     },
     {
-      type: Types.GENRE,
+      type: TYPES.GENRE,
       text: 'Выберите инди-рок треки',
       data: null,
       timer: null,
@@ -89,7 +89,7 @@ const game = {
       ]
     },
     {
-      type: Types.ARTIST,
+      type: TYPES.ARTIST,
       text: 'Кто исполняет эту песню?',
       data: {
         audio: '/audio/43.mp3'
@@ -123,7 +123,7 @@ const game = {
       ]
     },
     {
-      type: Types.GENRE,
+      type: TYPES.GENRE,
       text: 'Выберите Industrial треки',
       data: null,
       timer: null,
@@ -149,7 +149,7 @@ const game = {
       ]
     },
     {
-      type: Types.ARTIST,
+      type: TYPES.ARTIST,
       text: 'Кто исполняет эту песню?',
       data: {
         audio: '/audio/63.mp3'
@@ -183,7 +183,7 @@ const game = {
       ]
     },
     {
-      type: Types.GENRE,
+      type: TYPES.GENRE,
       text: 'Выберите Hip-Hop треки',
       data: null,
       timer: null,
@@ -209,7 +209,7 @@ const game = {
       ]
     },
     {
-      type: Types.GENRE,
+      type: TYPES.GENRE,
       text: 'Выберите Reggae треки',
       data: null,
       timer: null,
@@ -235,7 +235,7 @@ const game = {
       ]
     },
     {
-      type: Types.ARTIST,
+      type: TYPES.ARTIST,
       text: 'Кто исполняет эту песню?',
       data: {
         audio: '/audio/93.mp3'
@@ -269,7 +269,7 @@ const game = {
       ]
     },
     {
-      type: Types.GENRE,
+      type: TYPES.GENRE,
       text: 'Выберите Symphonic Metal треки',
       data: null,
       timer: null,
@@ -301,7 +301,7 @@ const game = {
       ]
     },
     {
-      type: Types.GENRE,
+      type: TYPES.GENRE,
       text: 'Выберите Heavy Metal треки',
       data: null,
       timer: null,
@@ -347,22 +347,24 @@ const result = {
   replayButton: 'Сыграть ещё раз'
 };
 
-export default (questionNumber) => {
+let currentQuestionNum = 0;
+
+export default () => {
 
   const questionsCount = game.questions.length;
 
-  if (window.stopFn && questionNumber !== 0) {
+  if (window.stopFn && currentQuestionNum !== 0) {
     window.stopFn();
   }
 
-  if (questionNumber === questionsCount) {
+  if (currentQuestionNum === questionsCount) {
 
-    dom.renderElement(makeResultElement(result));
+    dom.renderElement(createResultElement(result));
 
   } else {
 
-    const currentQ = game.questions[questionNumber];
-    dom.renderElement(currentQ.type.renderer(currentQ, questionNumber));
+    const currentQ = game.questions[currentQuestionNum++];
+    dom.renderElement(currentQ.type.renderer(currentQ));
 
     if (currentQ.timer !== null) {
       window.stopFn = window.initializeCountdown();

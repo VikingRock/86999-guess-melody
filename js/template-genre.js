@@ -1,7 +1,7 @@
 import * as dom from 'dom-helpers';
-import route from 'game';
+import nextQuestion from 'game';
 
-export default (inputData, questionNumber) => {
+export default (inputData) => {
 
   /**
    * renders option block from template
@@ -79,7 +79,7 @@ export default (inputData, questionNumber) => {
       item.checked = false;
     }
     answerButton.disabled = true;
-    route(++questionNumber);
+    nextQuestion();
   });
 
   return element;
