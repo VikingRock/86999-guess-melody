@@ -1,58 +1,45 @@
 import * as dom from 'dom-helpers';
-import artistElement from 'template-artist';
+import nextQuestion from 'game';
 
-/**
- * welcome page data structure
- * @const
- * @type {object}
- */
-const welcome = {
-  gameName: 'Угадай мелодию',
-  content: {
-    title: 'Правила игры',
-    text: `Правила просты&nbsp;— за&nbsp;2 минуты дать максимальное количество правильных ответов.
-          На&nbsp;каждую мелодию всего 3 варианта ответа. Удачи!`
-  },
-  playButton: 'Начать игру'
-};
+export default (inputData) => {
 
-const logo = `<section class="logo" title="${welcome.gameName}"><h1>${welcome.gameName}</h1></section>`;
+  const logo = `<section class="logo" title="${inputData.gameName}"><h1>${inputData.gameName}</h1></section>`;
 
-const button = `<button class="main-play">${welcome.playButton}</button>`;
+  const button = `<button class="main-play">${inputData.playButton}</button>`;
 
-const content = `
-  <h2 class="title main-title">${welcome.content.title}</h2>
+  const content = `
+  <h2 class="title main-title">${inputData.content.title}</h2>
   <p class="text main-text">
-    ${welcome.content.text}
+    ${inputData.content.text}
   </p>`;
 
 
-/**
- * welcome page template
- * @const
- * @type {string}
- */
-const moduleString = `<section class="main main--welcome">
+  /**
+   * welcome page template
+   * @const
+   * @type {string}
+   */
+  const moduleString = `<section class="main main--welcome">
     ${logo}
     ${button}
     ${content}
   </section>`;
 
-/**
- * welcome DOM node
- * @const
- * @type {Node}
- */
-const element = dom.getElementFromTemplate(moduleString);
+  /**
+   * welcome DOM node
+   * @const
+   * @type {Node}
+   */
+  const element = dom.getElementFromTemplate(moduleString);
 
-const playButton = element.querySelector('.main-play');
-/**
- * event listener for mouse click on play button
- * when clicked, the artist page is rendered
- */
-playButton.addEventListener('click', () => {
-  dom.renderElement(artistElement);
-  window.stopFn = window.initializeCountdown();
-});
+  const playButton = element.querySelector('.main-play');
+  /**
+   * event listener for mouse click on play button
+   * when clicked, the first question is rendered
+   */
+  playButton.addEventListener('click', () => {
+    nextQuestion();
+  });
 
-export default element;
+  return element;
+};
