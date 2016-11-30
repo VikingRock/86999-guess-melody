@@ -21,6 +21,9 @@ const TYPES = {
  * @type {object}
  */
 const game = {
+  lives: 3,
+  timer: 120,
+  statsPercents: [5, 10, 21, 19, 15, 10, 7, 6, 5, 2],
   questions: [
     {
       type: TYPES.ARTIST,
@@ -348,26 +351,40 @@ const result = {
 };
 
 let currentQuestionNum = 0;
+let correctAnswers = 0;
+let remainingLives = game.lives;
+const timer = document.querySelector('.timer-wrapper');
 
 export default () => {
 
   const questionsCount = game.questions.length;
 
-  if (window.stopFn && currentQuestionNum !== 0) {
-    window.stopFn();
+  timer.classList.remove('invisible');
+
+  if (currentQuestionNum === 0) {
+    window.stopFn = window.initializeCountdown(game.timer);
   }
 
-  if (currentQuestionNum === questionsCount) {
-
+  /**
+   * calling results and removing timer
+   */
+  const goToResults = () => {
+    window.stopFn();
     dom.renderElement(createResultElement(result));
+    timer.classList.add('invisible');
+  };
+
+  /**
+   * when timer has ended - switch to results
+   */
+  document.body.addEventListener('timer-end', goToResults, false);
+
+  if (currentQuestionNum === questionsCount) {
+    goToResults();
 
   } else {
 
     const currentQ = game.questions[currentQuestionNum++];
     dom.renderElement(currentQ.type.renderer(currentQ));
-
-    if (currentQ.timer !== null) {
-      window.stopFn = window.initializeCountdown();
-    }
   }
 };
