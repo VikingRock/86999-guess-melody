@@ -11,8 +11,8 @@ export default (inputData) => {
    */
   const renderOption = (index, data) => `<div class="genre-answer">
         <div class="player-wrapper" data-audio="${data.audio}"></div>
-        <input type="checkbox" name="answer" value="answer-${index + 1}" id="a-${index + 1}">
-        <label class="genre-answer-check" for="a-${index + 1}"></label>
+        <input type="checkbox" name="answer" value="${index}" id="a-${index}">
+        <label class="genre-answer-check" for="a-${index}"></label>
       </div>`;
 
   /**
@@ -75,11 +75,18 @@ export default (inputData) => {
    */
   answerButton.addEventListener('click', (evt) => {
     evt.preventDefault();
-    for (const item of checkedAnswerOptions) {
+    let allAnswersAreCorrect = true;
+    const allOptions = element.querySelectorAll('.genre-answer input');
+
+    for (const item of allOptions) {
+      if ( (item.checked && !inputData.answers[item.value].isCorrect) ||
+           (!item.checked && inputData.answers[item.value].isCorrect) ) {
+        allAnswersAreCorrect = false;
+      }
       item.checked = false;
     }
     answerButton.disabled = true;
-    nextQuestion();
+    nextQuestion(allAnswersAreCorrect);
   });
 
   return element;

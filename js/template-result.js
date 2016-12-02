@@ -1,4 +1,4 @@
-import * as dom from 'dom-helpers';
+import * as dom from './dom-helpers';
 
 export default (inputData) => {
 

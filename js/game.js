@@ -1,33 +1,42 @@
 import * as dom from './dom-helpers';
 import {game, questions, result} from './data/game-data';
-import {setLives} from './data/game-helpers';
+import {setLives, switchToNext} from './data/game-helpers';
 import createResultElement from './template-result';
 
 let currentQuestionNum = 0;
 const timer = document.querySelector('.timer-wrapper');
 const questionsCount = questions.length;
+let currentGame = game;
+
+const initGame = (current = game) => {
+  currentGame = current;
+};
+
+/**
+ * calling results and removing timer
+ */
+const goToResults = () => {
+  window.stopFn();
+  dom.renderElement(createResultElement(result));
+  timer.classList.add('invisible');
+};
 
 
-export default (prevResult) => {
+export default (prevResult = true) => {
 
   if (prevResult === false) {
-    setLives(game, game.lives - 1);
+    if (currentGame.lives === 0) {
+      goToResults();
+      return;
+    } else {
+      initGame(setLives(currentGame, currentGame.lives - 1));
+    }
   }
-
-  timer.classList.remove('invisible');
 
   if (currentQuestionNum === 0) {
-    window.stopFn = window.initializeCountdown(game.timer);
+    timer.classList.remove('invisible');
+    window.stopFn = window.initializeCountdown(currentGame.timer);
   }
-
-  /**
-   * calling results and removing timer
-   */
-  const goToResults = () => {
-    window.stopFn();
-    dom.renderElement(createResultElement(result));
-    timer.classList.add('invisible');
-  };
 
   /**
    * when timer has ended - switch to results
@@ -39,7 +48,6 @@ export default (prevResult) => {
 
   } else {
 
-    const currentQ = questions[currentQuestionNum++];
-    dom.renderElement(currentQ.type.renderer(currentQ));
+    switchToNext(currentQuestionNum++, questions);
   }
 };
