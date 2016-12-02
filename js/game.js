@@ -36,12 +36,11 @@ export default (prevResult = true) => {
   if (currentQuestionNum === 0) {
     timer.classList.remove('invisible');
     window.stopFn = window.initializeCountdown(currentGame.timer);
+    /**
+     * when timer has ended - switch to results
+     */
+    document.body.addEventListener('timer-end', goToResults, false);
   }
-
-  /**
-   * when timer has ended - switch to results
-   */
-  document.body.addEventListener('timer-end', goToResults, false);
 
   if (currentQuestionNum === questionsCount) {
     goToResults();
