@@ -1,7 +1,7 @@
-import * as dom from 'dom-helpers';
-import nextQuestion from 'game';
+import * as dom from './dom-helpers';
+import nextQuestion from './game';
 
-export default (inputData, questionNumber) => {
+export default (inputData) => {
 
   /**
    * renders option block from template
@@ -10,8 +10,8 @@ export default (inputData, questionNumber) => {
    * @return {string} rendered html
    */
   const renderOption = (index, data) => `<div class="main-answer-wrapper">
-          <input class="main-answer-r" type="radio" id="answer-${index + 1}" name="answer" value="val-${index + 1}" />
-          <label class="main-answer" for="answer-${index + 1}">
+          <input class="main-answer-r" type="radio" id="answer-${index}" name="answer" value="${index}" />
+          <label class="main-answer" for="answer-${index}">
             <img class="main-answer-preview" src="${data.image}">
             ${data.name}
           </label>
@@ -49,10 +49,13 @@ export default (inputData, questionNumber) => {
    * event listener for mouse click on artist element
    * when clicked, the next question is rendered
    */
-  answerList.addEventListener('click', (evt) => {
-    if (evt.target.classList.contains('main-answer') || evt.target.classList.contains('main-answer-preview')) {
-      nextQuestion();
+  answerList.addEventListener('change', (evt) => {
+    const choice = evt.target;
+    if (!choice.classList.contains('main-answer-r')) {
+      return;
     }
+    const qResult = inputData.answers[choice.value].isCorrect;
+    nextQuestion(qResult);
   });
 
   return element;
