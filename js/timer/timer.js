@@ -32,6 +32,7 @@ const redrawTimer = (timer, animation) => {
   const passed = animation.stepDuration * animation.step;
   const timeLeft = window.formatTime(total, passed);
 
+  window.secondsPassed = passed / 1000;
   timer.querySelector('.timer-value-mins').textContent = addLeadingZero(timeLeft.minutes);
   timer.querySelector('.timer-value-secs').textContent = addLeadingZero(timeLeft.seconds);
 
