@@ -36,7 +36,7 @@ export const calcStats = (stats, questionsPassed, initialLives, currentLives, ti
   const totalResultsNum = newStats.length;
   let currentGamePlace = totalResultsNum;
 
-  newStats.sort((a,b) => {
+  newStats.sort((a, b) => {
     if (a.answers === b.answers) {
       return a.time - b.time;
     }

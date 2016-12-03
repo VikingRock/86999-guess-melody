@@ -1,6 +1,6 @@
 import * as dom from './dom-helpers';
 import {game, questions, result, statistics} from './data/game-data';
-import {setLives, switchToNext, calcStats, formatTime} from './data/game-helpers';
+import {setLives, switchToNext, calcStats} from './data/game-helpers';
 import createResultElement from './template-result';
 
 let currentQuestionNum = 0;
