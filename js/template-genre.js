@@ -1,5 +1,5 @@
 import * as dom from 'dom-helpers';
-import nextQuestion from 'game';
+import {questionRouter} from 'game';
 
 export default (inputData) => {
 
@@ -86,7 +86,7 @@ export default (inputData) => {
       item.checked = false;
     }
     answerButton.disabled = true;
-    nextQuestion(allAnswersAreCorrect);
+    questionRouter(allAnswersAreCorrect);
   });
 
   return element;

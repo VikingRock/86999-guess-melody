@@ -1,5 +1,6 @@
 import * as dom from 'dom-helpers';
-import nextQuestion from 'game';
+import {game} from './data/game-data';
+import {gameStart} from 'game';
 
 export default (inputData) => {
 
@@ -38,7 +39,7 @@ export default (inputData) => {
    * when clicked, the first question is rendered
    */
   playButton.addEventListener('click', () => {
-    nextQuestion();
+    gameStart(game);
   });
 
   return element;

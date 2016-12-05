@@ -1,5 +1,5 @@
 import * as dom from './dom-helpers';
-import nextQuestion from './game';
+import {questionRouter} from './game';
 
 export default (inputData) => {
 
@@ -55,7 +55,7 @@ export default (inputData) => {
       return;
     }
     const qResult = inputData.answers[choice.value].isCorrect;
-    nextQuestion(qResult);
+    questionRouter(qResult);
   });
 
   return element;

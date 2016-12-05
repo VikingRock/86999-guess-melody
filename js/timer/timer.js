@@ -11,6 +11,9 @@
 // Длина окружности = 2πR
 // Длина шага = Длина окружности / Количество шагов
 // Пропуск = Длина шага * Номер шага
+const timerTickEvent = document.createEvent('Event');
+timerTickEvent.initEvent('timer-tick', true, true);
+
 const redrawCircle = (circle, radius, animation) => {
   const length = 2 * Math.PI * radius;
   const stepLength = length / animation.steps;
@@ -32,15 +35,16 @@ const redrawTimer = (timer, animation) => {
   const passed = animation.stepDuration * animation.step;
   const timeLeft = window.formatTime(total, passed);
 
-  window.secondsPassed = passed / 1000;
+  document.body.dispatchEvent(timerTickEvent);
+
   timer.querySelector('.timer-value-mins').textContent = addLeadingZero(timeLeft.minutes);
   timer.querySelector('.timer-value-secs').textContent = addLeadingZero(timeLeft.seconds);
 
   return timer;
 };
 
-const event = document.createEvent('Event');
-event.initEvent('timer-end', true, true);
+const timerEndEvent = document.createEvent('Event');
+timerEndEvent.initEvent('timer-end', true, true);
 
 window.initializeCountdown = (timeLimit) => {
   const element = document.querySelector('.timer-line');
@@ -52,6 +56,6 @@ window.initializeCountdown = (timeLimit) => {
     redrawTimer(timer, animation);
   }, () => {
     timer.classList.add('timer-value--finished');
-    document.body.dispatchEvent(event);
+    document.body.dispatchEvent(timerEndEvent);
   });
 };

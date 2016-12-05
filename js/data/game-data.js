@@ -20,7 +20,8 @@ export const TYPES = {
 export const game = {
   currentQuestion: 0,
   lives: 3,
-  timer: 120
+  timer: 0,
+  maxTime: 120
 };
 
 /**
