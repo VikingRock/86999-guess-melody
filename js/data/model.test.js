@@ -29,8 +29,8 @@ describe('model-methods', function () {
     it('Should throw an error if currentQuestion < 0', function () {
       assert.throws(() => setCurrentQuestion({currentQuestion: 6}, -1));
     });
-    it('Should throw an error if currentQuestion > 9', function () {
-      assert.throws(() => setCurrentQuestion({currentQuestion: 6}, 10));
+    it('Should throw an error if currentQuestion > 10', function () {
+      assert.throws(() => setCurrentQuestion({currentQuestion: 6}, 11));
     });
     it('currentQuestion successfully changed', function () {
       assert.equal(setCurrentQuestion({currentQuestion: 3}, 9).currentQuestion, 9);
