@@ -1,8 +1,7 @@
-import * as dom from './dom-helpers';
 import {game} from './data/model';
-import {questions, result, statistics} from './data/game-data';
+import {questions, result, statistics, TYPES} from './data/game-data';
 import {setLives, setTime, setCurrentQuestion} from './data/model';
-import createResultElement from './template-result';
+import view from 'view';
 
 const timer = document.querySelector('.timer-wrapper');
 const questionsCount = questions.length;
@@ -24,7 +23,7 @@ const updateGame = (current) => {
  */
 export const switchToNext = (questionNum, questionsArr) => {
   const currentQ = questionsArr[questionNum];
-  dom.renderElement(currentQ.type.renderer(currentQ));
+  view(currentQ.type, currentQ);
 };
 
 /**
@@ -105,7 +104,7 @@ export const gameStart = () => {
 const goToResults = () => {
   result.stats = calcStats(statistics, currentGame.currentQuestion, initialLives, currentGame.lives, currentGame.timer);
   window.stopFn();
-  dom.renderElement(createResultElement(result));
+  view(TYPES.RESULT, result);
   timer.classList.add('invisible');
 };
 

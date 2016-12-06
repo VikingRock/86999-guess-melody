@@ -1,16 +1,9 @@
-import createArtistElement from '../template-artist';
-import createGenreElement from '../template-genre';
-
 /** @enum {object} */
 export const TYPES = {
-  ARTIST: {
-    name: 'artist',
-    renderer: createArtistElement
-  },
-  GENRE: {
-    name: 'genre',
-    renderer: createGenreElement
-  }
+  WELCOME: 'WELCOME',
+  ARTIST: 'ARTIST',
+  GENRE: 'GENRE',
+  RESULT: 'RESULT'
 };
 
 /**

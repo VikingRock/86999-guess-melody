@@ -7,7 +7,7 @@ export const game = {
   lives: 3,
   timer: 0,
   maxTime: 120,
-  maxQuestionNum: 9
+  maxQuestionNum: 10
 };
 
 /**

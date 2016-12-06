@@ -1,8 +1,6 @@
-import * as dom from 'dom-helpers';
-import makeElement from 'template-welcome';
-import {welcome} from 'data/game-data';
-
+import {welcome, TYPES} from 'data/game-data';
+import view from 'view';
 
 window.onload = () => {
-  dom.renderElement(makeElement(welcome));
+  view(TYPES.WELCOME, welcome);
 };
