@@ -339,7 +339,7 @@ export const statistics = [
   {time: 80, answers: 9, recent: false},
   {time: 92, answers: 10, recent: false},
   {time: 120, answers: 5, recent: false},
-  {time: 104, answers: 10, recent: false},
+  {time: 104, answers: 3, recent: false},
   {time: 110, answers: 7, recent: false},
   {time: 16, answers: 2, recent: false},
   {time: 35, answers: 0, recent: false}

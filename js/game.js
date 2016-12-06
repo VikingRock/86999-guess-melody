@@ -1,20 +1,81 @@
 import * as dom from './dom-helpers';
 import {questions, result, statistics} from './data/game-data';
-import {setLives, switchToNext, calcStats, setTime} from './data/game-helpers';
+import {setLives, setTime, setCurrentQuestion} from './data/model';
 import createResultElement from './template-result';
 
-let currentQuestionNum = 0;
 const timer = document.querySelector('.timer-wrapper');
 const questionsCount = questions.length;
 let currentGame;
 let initialLives;
 
 /**
- * initialize a game with updated lives
+ * update game object
  * @param {object} current game
  */
-const initGame = (current) => {
+const updateGame = (current) => {
   currentGame = current;
+};
+
+/**
+ * Loads a new question from array and renders it
+ * @param {number} questionNum
+ * @param {array} questionsArr
+ */
+export const switchToNext = (questionNum, questionsArr) => {
+  const currentQ = questionsArr[questionNum];
+  dom.renderElement(currentQ.type.renderer(currentQ));
+};
+
+/**
+ * formats time to minutes and seconds notation
+ * @param {number} seconds
+ * @return {object} minutes and seconds
+ */
+export const formatTime = (seconds) => {
+  const minutes = Math.floor(seconds / 60);
+  seconds = seconds % 60;
+  return {minutes, seconds};
+};
+
+/**
+ * calculates statistics based on user progress
+ * and compares user results with an array of previous results
+ * @param {array} stats
+ * @param {number} questionsPassed
+ * @param {number} initialLivesNum
+ * @param {number} currentLives
+ * @param {number} time
+ * @return {object} stats
+ */
+export const calcStats = (stats, questionsPassed, initialLivesNum, currentLives, time) => {
+  let newStats = JSON.parse(JSON.stringify(stats));
+  const currentResult = {
+    time: time,
+    answers: questionsPassed - initialLivesNum + currentLives - 1,
+    recent: true
+  };
+  newStats.push(currentResult);
+  const totalResultsNum = newStats.length;
+  let currentGamePlace = totalResultsNum;
+
+  newStats.sort((a, b) => {
+    if (a.answers === b.answers) {
+      return a.time - b.time;
+    }
+    return b.answers - a.answers;
+  });
+
+  newStats.find((el, idx) => {
+    if (el.recent === true) {
+      currentGamePlace = idx + 1;
+      return true;
+    }
+    return false;
+  });
+
+  const successPercent = Math.round((totalResultsNum - currentGamePlace) / totalResultsNum * 100);
+
+  return {time: formatTime(time), correctAnswers: currentResult.answers, percents: successPercent};
 };
 
 /**
@@ -23,7 +84,7 @@ const initGame = (current) => {
  * @param {obj} gameObj
  */
 export const gameStart = (gameObj) => {
-  currentGame = gameObj;
+  updateGame(gameObj);
   initialLives = gameObj.lives;
 
   timer.classList.remove('invisible');
@@ -31,38 +92,45 @@ export const gameStart = (gameObj) => {
 
   document.body.addEventListener('timer-end', goToResults, false);
   document.body.addEventListener('timer-tick', () => {
-    currentGame = setTime(currentGame, currentGame.timer + 1);
+    updateGame(setTime(currentGame, currentGame.timer + 1));
   }, false);
 
-  switchToNext(currentQuestionNum++, questions);
+  switchToNext(0, questions);
 };
 
 /**
  * calling results and removing timer
  */
 const goToResults = () => {
-  result.stats = calcStats(statistics, currentQuestionNum, initialLives, currentGame.lives, currentGame.timer);
+  result.stats = calcStats(statistics, currentGame.currentQuestion, initialLives, currentGame.lives, currentGame.timer);
   window.stopFn();
   dom.renderElement(createResultElement(result));
   timer.classList.add('invisible');
 };
 
-
+/**
+ * routes game to next question
+ * or to results depending on user answers
+ * and question count
+ * @param {boolean} prevResult - result of the previous user answer
+ */
 export const questionRouter = (prevResult = true) => {
+
+  updateGame(setCurrentQuestion(currentGame, currentGame.currentQuestion + 1));
 
   if (prevResult === false) {
     if (currentGame.lives === 0) {
       goToResults();
       return;
     } else {
-      initGame(setLives(currentGame, currentGame.lives - 1));
+      updateGame(setLives(currentGame, currentGame.lives - 1));
     }
   }
 
-  if (currentQuestionNum === questionsCount) {
+  if (currentGame.currentQuestion === questionsCount) {
     goToResults();
 
   } else {
-    switchToNext(currentQuestionNum++, questions);
+    switchToNext(currentGame.currentQuestion, questions);
   }
 };
