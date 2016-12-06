@@ -1,4 +1,5 @@
 import * as dom from './dom-helpers';
+import {game} from './data/model';
 import {questions, result, statistics} from './data/game-data';
 import {setLives, setTime, setCurrentQuestion} from './data/model';
 import createResultElement from './template-result';
@@ -83,9 +84,9 @@ export const calcStats = (stats, questionsPassed, initialLivesNum, currentLives,
  * it starts timer and adds event listeners
  * @param {obj} gameObj
  */
-export const gameStart = (gameObj) => {
-  updateGame(gameObj);
-  initialLives = gameObj.lives;
+export const gameStart = () => {
+  updateGame(game);
+  initialLives = game.lives;
 
   timer.classList.remove('invisible');
   window.stopFn = window.initializeCountdown(currentGame.maxTime);

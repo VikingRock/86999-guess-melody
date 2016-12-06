@@ -14,17 +14,6 @@ export const TYPES = {
 };
 
 /**
- * game data structure
- * @type {object}
- */
-export const game = {
-  currentQuestion: 0,
-  lives: 3,
-  timer: 0,
-  maxTime: 120
-};
-
-/**
  * questions array
  * @type {array}
  */
@@ -329,6 +318,21 @@ export const result = {
     percents: 80
   },
   replayButton: 'Сыграть ещё раз'
+};
+
+/**
+ * welcome page data structure
+ * @const
+ * @type {object}
+ */
+export const welcome = {
+  gameName: 'Угадай мелодию',
+  content: {
+    title: 'Правила игры',
+    text: `Правила просты&nbsp;— за&nbsp;2 минуты дать максимальное количество правильных ответов.
+          На&nbsp;каждую мелодию всего 3 варианта ответа. Удачи!`
+  },
+  playButton: 'Начать игру'
 };
 
 /**
