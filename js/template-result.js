@@ -1,11 +1,12 @@
-import * as dom from 'dom-helpers';
+import * as dom from './dom-helpers';
 
 export default (inputData) => {
 
   const logo = `<section class="logo" title="${inputData.gameName}"><h1>${inputData.gameName}</h1></section>`;
 
   const content = `<h2 class="title">${inputData.content.title}</h2>
-    <div class="main-stat">За ${inputData.stats.time} минуты<br>вы отгадали ${inputData.stats.melodiesCount} мелодии</div>
+    <div class="main-stat">За ${inputData.stats.time.minutes} минут ${inputData.stats.time.seconds} секунд
+    <br>вы отгадали ${inputData.stats.correctAnswers} мелодии</div>
     <span class="main-comparison">Это лучше чем у ${inputData.stats.percents}% игроков</span>`;
 
   const button = `<span role="button" tabindex="0" class="main-replay">${inputData.replayButton}</span>`;
