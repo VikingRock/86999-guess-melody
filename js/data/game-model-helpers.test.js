@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {setLives, setTime, setCurrentQuestion} from './model';
+import {setLives, setTime, setCurrentQuestion} from './game-model-helpers';
 
 
 describe('model-methods', function () {

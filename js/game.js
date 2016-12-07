@@ -1,6 +1,6 @@
-import {game} from './data/model';
+import {game} from './data/game-model-helpers';
 import {questions, result, statistics, TYPES} from './data/game-data';
-import {setLives, setTime, setCurrentQuestion} from './data/model';
+import {setLives, setTime, setCurrentQuestion} from './data/game-model-helpers';
 import view from 'view';
 
 const timer = document.querySelector('.timer-wrapper');
