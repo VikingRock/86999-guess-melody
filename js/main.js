@@ -1,6 +1,6 @@
 import {welcome} from 'data/game-data';
-import CreateWelcome from 'views/welcome-view';
+import createWelcome from 'views/welcome-view';
 
 window.onload = () => {
-  CreateWelcome(welcome).renderView();
+  createWelcome(welcome).renderView();
 };

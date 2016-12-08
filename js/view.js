@@ -1,17 +1,16 @@
-import * as dom from 'dom-helpers';
 import {TYPES} from 'data/game-data';
-import welcome from 'template-welcome';
-import artist from 'template-artist';
-import genre from 'template-genre';
-import result from 'template-result';
+import createArtist from 'views/artist-view';
+import createGenre from 'views/genre-view';
+import createWelcome from 'views/welcome-view';
+import createResult from 'views/result-view';
 
 const RENDERS = {
-  [TYPES.WELCOME]: welcome,
-  [TYPES.ARTIST]: artist,
-  [TYPES.GENRE]: genre,
-  [TYPES.RESULT]: result
+  [TYPES.ARTIST]: createArtist,
+  [TYPES.GENRE]: createGenre,
+  [TYPES.WELCOME]: createWelcome,
+  [TYPES.RESULT]: createResult
 };
 
 export default (type, inputData) => {
-  dom.renderElement(RENDERS[type](inputData));
+  RENDERS[type](inputData).renderView();
 };
