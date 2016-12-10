@@ -1,5 +1,5 @@
 import AbstractView from './abstract-view';
-import {questionRouter} from '../game';
+import GamePresenter from '../game';
 
 class ArtistView extends AbstractView {
 
@@ -53,7 +53,7 @@ class ArtistView extends AbstractView {
         return;
       }
       const qResult = this.inputData.answers[choice.value].isCorrect;
-      questionRouter(qResult);
+      GamePresenter.questionRouter(qResult);
     });
   }
 }

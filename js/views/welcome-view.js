@@ -1,5 +1,5 @@
 import AbstractView from './abstract-view';
-import {gameStart} from '../game';
+import GamePresenter from '../game';
 
 class WelcomeView extends AbstractView {
 
@@ -31,7 +31,7 @@ class WelcomeView extends AbstractView {
      * when clicked, the first question is rendered
      */
     playButton.addEventListener('click', () => {
-      gameStart();
+      GamePresenter.gameStart();
     });
   }
 }
