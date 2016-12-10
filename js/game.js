@@ -1,6 +1,7 @@
-import {questions, result, statistics, TYPES} from './data/game-data';
+import {questions, result, statistics} from './data/game-data';
 import view from 'view';
 import GameModel from 'data/game-model';
+import Application from 'application';
 
 class GamePresenter {
 
@@ -9,6 +10,7 @@ class GamePresenter {
     this.initialLives = GameModel.lives;
     this.timer = document.querySelector('.timer-wrapper');
     this.questionsCount = questions.length;
+    this.goToResults = this.goToResults.bind(this);
   }
 
   /**
@@ -79,12 +81,16 @@ class GamePresenter {
    */
   gameStart() {
 
+    if (this.model.currentQuestion !== 0) {
+      this.model.resetState();
+    }
+
     this.timer.classList.remove('invisible');
-    window.stopFn = window.initializeCountdown(GameModel.maxTime);
+    window.stopFn = window.initializeCountdown(this.model.maxTime);
 
     document.body.addEventListener('timer-end', this.goToResults, false);
     document.body.addEventListener('timer-tick', () => {
-      GameModel.time++;
+      this.model.time++;
     }, false);
 
     this.switchToNext(0, questions);
@@ -94,10 +100,9 @@ class GamePresenter {
    * calling results and removing timer
    */
   goToResults() {
-    result.stats = this.calcStats(statistics, GameModel.currentQuestion, this.initialLives, GameModel.lives, GameModel.time);
+    result.stats = this.calcStats(statistics, this.model.currentQuestion, this.initialLives, this.model.lives, this.model.time);
     window.stopFn();
-    view(TYPES.RESULT, result);
-    this.timer.classList.add('invisible');
+    Application.showStats();
   }
 
   /**
@@ -108,22 +113,22 @@ class GamePresenter {
    */
   questionRouter(prevResult = true) {
 
-    GameModel.currentQuestion++;
+    this.model.currentQuestion++;
 
     if (prevResult === false) {
-      if (GameModel.lives === 0) {
+      if (this.model.lives === 0) {
         this.goToResults();
         return;
       } else {
-        GameModel.lives--;
+        this.model.lives--;
       }
     }
 
-    if (GameModel.currentQuestion === this.questionsCount) {
+    if (this.model.currentQuestion === this.questionsCount) {
       this.goToResults();
 
     } else {
-      this.switchToNext(GameModel.currentQuestion, questions);
+      this.switchToNext(this.model.currentQuestion, questions);
     }
   }
 }

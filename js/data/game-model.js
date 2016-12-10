@@ -3,6 +3,11 @@ import {game, setLives, setTime, setCurrentQuestion} from './game-model-helpers'
 class GameModel {
   constructor(state = game) {
     this._state = state;
+    this._defaultState = state;
+  }
+
+  resetState() {
+    this._state = this._defaultState;
   }
 
   set time(time) {
