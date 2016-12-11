@@ -1,4 +1,4 @@
-import {game, setLives, setTime, setCurrentQuestion} from './game-model-helpers';
+import {game, setLives, setTime, setCurrentQuestion, setCorrectQuestions} from './game-model-helpers';
 
 class GameModel {
   constructor(state = game) {
@@ -7,7 +7,7 @@ class GameModel {
   }
 
   resetState() {
-    this._state = this._defaultState;
+    Object.assign(this._state, this._defaultState);
   }
 
   set time(time) {
@@ -32,6 +32,14 @@ class GameModel {
 
   get currentQuestion() {
     return this._state.currentQuestion;
+  }
+
+  set correctQuestions(number) {
+    this._state = setCorrectQuestions(this._state, number);
+  }
+
+  get correctQuestions() {
+    return this._state.correctQuestions;
   }
 
   get maxTime() {

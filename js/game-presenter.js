@@ -38,17 +38,15 @@ class GamePresenter {
    * calculates statistics based on user progress
    * and compares user results with an array of previous results
    * @param {array} stats
-   * @param {number} questionsPassed
-   * @param {number} initialLivesNum
-   * @param {number} currentLives
+   * @param {number} points
    * @param {number} time
    * @return {object} stats
    */
-  calcStats(stats, questionsPassed, initialLivesNum, currentLives, time) {
+  calcStats(stats, points, time) {
     let newStats = JSON.parse(JSON.stringify(stats));
     const currentResult = {
       time: time,
-      answers: questionsPassed - initialLivesNum + currentLives - 1,
+      answers: points,
       recent: true
     };
     newStats.push(currentResult);
@@ -78,21 +76,21 @@ class GamePresenter {
   /**
    * First invocation of controller,
    * it starts timer and adds event listeners
+   * @param {boolean} replay - indicates if we need to reset model state
    */
-  gameStart() {
+  gameStart(replay = false) {
 
-    if (this.model.currentQuestion !== 0) {
+    if (replay === true) {
       this.model.resetState();
+    } else {
+      document.body.addEventListener('timer-end', this.goToResults, false);
+      document.body.addEventListener('timer-tick', () => {
+        this.model.time++;
+      }, false);
     }
 
     this.timer.classList.remove('invisible');
     window.stopFn = window.initializeCountdown(this.model.maxTime);
-
-    document.body.addEventListener('timer-end', this.goToResults, false);
-    document.body.addEventListener('timer-tick', () => {
-      this.model.time++;
-    }, false);
-
     this.switchToNext(0, questions);
   }
 
@@ -100,7 +98,7 @@ class GamePresenter {
    * calling results and removing timer
    */
   goToResults() {
-    result.stats = this.calcStats(statistics, this.model.currentQuestion, this.initialLives, this.model.lives, this.model.time);
+    result.stats = this.calcStats(statistics, this.model.correctQuestions, this.model.time);
     window.stopFn();
     Application.showStats();
   }
@@ -122,6 +120,8 @@ class GamePresenter {
       } else {
         this.model.lives--;
       }
+    } else {
+      this.model.correctQuestions++;
     }
 
     if (this.model.currentQuestion === this.questionsCount) {

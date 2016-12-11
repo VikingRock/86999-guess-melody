@@ -1,5 +1,5 @@
 import AbstractView from './abstract-view';
-import GamePresenter from '../game';
+import GamePresenter from '../game-presenter';
 
 class GenreView extends AbstractView {
 

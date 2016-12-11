@@ -1,6 +1,6 @@
 import view from 'view';
 import {TYPES, welcome, result} from 'data/game-data';
-import GamePresenter from './game';
+import GamePresenter from './game-presenter';
 
 export default class Application {
 
@@ -8,8 +8,8 @@ export default class Application {
     view(TYPES.WELCOME, welcome);
   }
 
-  static showGame() {
-    GamePresenter.gameStart();
+  static showGame(flag = false) {
+    GamePresenter.gameStart(flag);
   }
 
   static showStats() {
