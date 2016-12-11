@@ -1,20 +1,10 @@
-import {game} from './data/model';
 import {questions, result, statistics, TYPES} from './data/game-data';
-import {setLives, setTime, setCurrentQuestion} from './data/model';
 import view from 'view';
+import GameModel from 'data/game-model';
 
 const timer = document.querySelector('.timer-wrapper');
 const questionsCount = questions.length;
-let currentGame;
 let initialLives;
-
-/**
- * update game object
- * @param {object} current game
- */
-const updateGame = (current) => {
-  currentGame = current;
-};
 
 /**
  * Loads a new question from array and renders it
@@ -84,15 +74,14 @@ export const calcStats = (stats, questionsPassed, initialLivesNum, currentLives,
  * @param {obj} gameObj
  */
 export const gameStart = () => {
-  updateGame(game);
-  initialLives = game.lives;
+  initialLives = GameModel.lives;
 
   timer.classList.remove('invisible');
-  window.stopFn = window.initializeCountdown(currentGame.maxTime);
+  window.stopFn = window.initializeCountdown(GameModel.maxTime);
 
   document.body.addEventListener('timer-end', goToResults, false);
   document.body.addEventListener('timer-tick', () => {
-    updateGame(setTime(currentGame, currentGame.timer + 1));
+    GameModel.time++;
   }, false);
 
   switchToNext(0, questions);
@@ -102,7 +91,7 @@ export const gameStart = () => {
  * calling results and removing timer
  */
 const goToResults = () => {
-  result.stats = calcStats(statistics, currentGame.currentQuestion, initialLives, currentGame.lives, currentGame.timer);
+  result.stats = calcStats(statistics, GameModel.currentQuestion, initialLives, GameModel.lives, GameModel.time);
   window.stopFn();
   view(TYPES.RESULT, result);
   timer.classList.add('invisible');
@@ -116,21 +105,21 @@ const goToResults = () => {
  */
 export const questionRouter = (prevResult = true) => {
 
-  updateGame(setCurrentQuestion(currentGame, currentGame.currentQuestion + 1));
+  GameModel.currentQuestion++;
 
   if (prevResult === false) {
-    if (currentGame.lives === 0) {
+    if (GameModel.lives === 0) {
       goToResults();
       return;
     } else {
-      updateGame(setLives(currentGame, currentGame.lives - 1));
+      GameModel.lives--;
     }
   }
 
-  if (currentGame.currentQuestion === questionsCount) {
+  if (GameModel.currentQuestion === questionsCount) {
     goToResults();
 
   } else {
-    switchToNext(currentGame.currentQuestion, questions);
+    switchToNext(GameModel.currentQuestion, questions);
   }
 };
