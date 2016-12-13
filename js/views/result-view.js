@@ -1,4 +1,5 @@
 import AbstractView from './abstract-view';
+import Application from 'application';
 
 class ResultView extends AbstractView {
 
@@ -32,7 +33,7 @@ class ResultView extends AbstractView {
      * if clicked, welcome page is rendered
      */
     replayButton.addEventListener('click', () => {
-      window.location.reload(false);
+      Application.showGame();
     });
   }
 }

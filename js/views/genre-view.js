@@ -1,5 +1,5 @@
 import AbstractView from './abstract-view';
-import {questionRouter} from '../game';
+import GamePresenter from '../game-presenter';
 
 class GenreView extends AbstractView {
 
@@ -84,7 +84,7 @@ class GenreView extends AbstractView {
         item.checked = false;
       }
       answerButton.disabled = true;
-      questionRouter(allAnswersAreCorrect);
+      GamePresenter.questionRouter(allAnswersAreCorrect);
     });
   }
 }

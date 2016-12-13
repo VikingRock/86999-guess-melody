@@ -50,6 +50,7 @@ window.initializeCountdown = (timeLimit) => {
   const element = document.querySelector('.timer-line');
   const radius = parseInt(element.getAttributeNS(null, 'r'), 10);
   const timer = document.querySelector('.timer-value');
+  timer.classList.remove('timer-value--finished');
 
   return window.animation.animate(window.animation.getAnimation(0, 1000, timeLimit), (animation) => {
     redrawCircle(element, radius, animation);

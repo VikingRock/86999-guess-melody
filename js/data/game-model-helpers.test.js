@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {setLives, setTime, setCurrentQuestion} from './game-model-helpers';
+import {setLives, setTime, setCurrentQuestion, setCorrectQuestions} from './game-model-helpers';
 
 
 describe('model-methods', function () {
@@ -34,6 +34,18 @@ describe('model-methods', function () {
     });
     it('currentQuestion successfully changed', function () {
       assert.equal(setCurrentQuestion({currentQuestion: 3}, 9).currentQuestion, 9);
+    });
+  });
+
+  describe('#setCorrectQuestions()', function () {
+    it('Should throw an error if correctQuestions < 0', function () {
+      assert.throws(() => setCorrectQuestions({correctQuestions: 6}, -1));
+    });
+    it('Should throw an error if correctQuestions > 10', function () {
+      assert.throws(() => setCorrectQuestions({correctQuestions: 6}, 11));
+    });
+    it('correctQuestions successfully changed', function () {
+      assert.equal(setCorrectQuestions({correctQuestions: 3}, 9).correctQuestions, 9);
     });
   });
 
