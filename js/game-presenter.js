@@ -7,10 +7,11 @@ class GamePresenter {
 
   constructor(model = GameModel) {
     this.model = model;
-    this.initialLives = GameModel.lives;
     this.timer = document.querySelector('.timer-wrapper');
     this.questionsCount = questions.length;
+
     this.goToResults = this.goToResults.bind(this);
+    this.tick = this.tick.bind(this);
   }
 
   /**
@@ -74,20 +75,21 @@ class GamePresenter {
   }
 
   /**
-   * First invocation of controller,
-   * it starts timer and adds event listeners
-   * @param {boolean} replay - indicates if we need to reset model state
+   * increases time by one second
    */
-  gameStart(replay = false) {
+  tick() {
+    this.model.time++;
+  }
 
-    if (replay === true) {
-      this.model.resetState();
-    } else {
-      document.body.addEventListener('timer-end', this.goToResults, false);
-      document.body.addEventListener('timer-tick', () => {
-        this.model.time++;
-      }, false);
-    }
+  /**
+   * First invocation of presenter,
+   * it starts timer and adds event listeners
+   */
+  gameStart() {
+    this.model.resetState();
+
+    document.body.addEventListener('timer-end', this.goToResults, false);
+    document.body.addEventListener('timer-tick', this.tick, false);
 
     this.timer.classList.remove('invisible');
     window.stopFn = window.initializeCountdown(this.model.maxTime);
@@ -100,6 +102,8 @@ class GamePresenter {
   goToResults() {
     result.stats = this.calcStats(statistics, this.model.correctQuestions, this.model.time);
     window.stopFn();
+    document.body.removeEventListener('timer-end', this.goToResults);
+    document.body.removeEventListener('timer-tick', this.tick);
     Application.showStats();
   }
 

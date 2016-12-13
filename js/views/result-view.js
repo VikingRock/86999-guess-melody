@@ -33,7 +33,7 @@ class ResultView extends AbstractView {
      * if clicked, welcome page is rendered
      */
     replayButton.addEventListener('click', () => {
-      Application.showGame(true);
+      Application.showGame();
     });
   }
 }

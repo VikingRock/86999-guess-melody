@@ -8,8 +8,8 @@ export default class Application {
     view(TYPES.WELCOME, welcome);
   }
 
-  static showGame(flag = false) {
-    GamePresenter.gameStart(flag);
+  static showGame() {
+    GamePresenter.gameStart();
   }
 
   static showStats() {
