@@ -2,6 +2,9 @@ import {result, statistics} from './data/game-data';
 import view from 'view';
 import GameModel from 'data/game-model';
 import Application from 'application';
+import timer from 'timer/timer';
+
+let stopFn;
 
 class GamePresenter {
 
@@ -13,6 +16,10 @@ class GamePresenter {
     this.tick = this.tick.bind(this);
   }
 
+  /**
+   * sets questions for the game
+   * @param {array} questions
+   */
   setQuestions(questions) {
     this.questions = questions;
     this.questionsCount = questions.length;
@@ -92,11 +99,10 @@ class GamePresenter {
   gameStart() {
     this.model.resetState();
 
-    document.body.addEventListener('timer-end', this.goToResults, false);
+    stopFn = timer(this.model.maxTime, this.goToResults);
     document.body.addEventListener('timer-tick', this.tick, false);
 
     this.timer.classList.remove('invisible');
-    window.stopFn = window.initializeCountdown(this.model.maxTime);
     this.switchToNext(0, this.questions);
   }
 
@@ -105,8 +111,7 @@ class GamePresenter {
    */
   goToResults() {
     result.stats = this.calcStats(statistics, this.model.correctQuestions, this.model.time);
-    window.stopFn();
-    document.body.removeEventListener('timer-end', this.goToResults);
+    stopFn();
     document.body.removeEventListener('timer-tick', this.tick);
     Application.showStats();
   }
