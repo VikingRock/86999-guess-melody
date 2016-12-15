@@ -6,6 +6,7 @@ class ArtistView extends AbstractView {
 
   constructor(inputData) {
     super(inputData);
+    this.selectArtist = this.selectArtist.bind(this);
   }
 
   /**
@@ -40,27 +41,32 @@ class ArtistView extends AbstractView {
     </section>`;
   }
 
+  /**
+   * event listener for mouse click on artist element
+   * when clicked, the next question is rendered
+   * @param {object} evt
+   */
+  selectArtist(evt) {
+    const choice = evt.target;
+    if (!choice.classList.contains('main-answer-r')) {
+      return;
+    }
+    const qResult = this.inputData.answers[choice.value].isCorrect;
+    this.clearHandlers();
+    GamePresenter.questionRouter(qResult);
+  }
 
   bindHandlers() {
-    const answerList = this.element.querySelector('.main-list');
-
+    this.answerList = this.element.querySelector('.main-list');
     const element = this.element.querySelector('.player-wrapper');
-    const del = player(element, this.inputData.src, true, true);
 
+    this.deletePlayer = player(element, this.inputData.src, true, true);
+    this.answerList.addEventListener('change', this.selectArtist);
+  }
 
-    /**
-     * event listener for mouse click on artist element
-     * when clicked, the next question is rendered
-     */
-    answerList.addEventListener('change', (evt) => {
-      const choice = evt.target;
-      if (!choice.classList.contains('main-answer-r')) {
-        return;
-      }
-      const qResult = this.inputData.answers[choice.value].isCorrect;
-      del();
-      GamePresenter.questionRouter(qResult);
-    });
+  clearHandlers() {
+    this.deletePlayer();
+    this.answerList.removeEventListener('change', this.selectArtist);
   }
 }
 

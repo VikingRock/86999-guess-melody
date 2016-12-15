@@ -11,7 +11,7 @@ const checkStatus = (response) => {
 
 const parseJSON = (response) => response.json();
 
-window.fetch('https://intensive-ecmascript-server-qybmlbpxoi.now.sh/guess-melody/questions')
+window.fetch('https://intensive-ecmascript-server-nnpnvhhedl.now.sh/guess-melody/questions')
     .then(checkStatus)
     .then(parseJSON)
     .then((data) => {

@@ -6,12 +6,14 @@ class GenreView extends AbstractView {
 
   constructor(inputData) {
     super(inputData);
+    this.selectGenre = this.selectGenre.bind(this);
+    this.checkAnswerEnabled = this.checkAnswerEnabled.bind(this);
+    this.deletePlayers = [];
   }
 
   /**
    * renders option block from template
    * @param {number} index
-   * @param {object} data - contains option's option's audio
    * @return {string} rendered html
    */
   renderOption(index) {
@@ -34,71 +36,71 @@ class GenreView extends AbstractView {
   </section>`;
   }
 
+  /**
+   * event listener for mouse click on answer button;
+   * if button is enabled, next question is rendered
+   * and all form elements state is set to default
+   * @param {object} evt
+   */
+  selectGenre(evt) {
+    evt.preventDefault();
+    let allAnswersAreCorrect = true;
+    const allOptions = this.element.querySelectorAll('.genre-answer input');
+    const genre = this.inputData.genre;
+
+    for (const item of allOptions) {
+      let selectedGenre = this.inputData.answers[item.value].genre;
+      if ( (item.checked && (selectedGenre !== genre) ) ||
+        (!item.checked && (selectedGenre === genre) ) ) {
+        allAnswersAreCorrect = false;
+      }
+      item.checked = false;
+    }
+    this.answerButton.disabled = true;
+    this.clearHandlers();
+    GamePresenter.questionRouter(allAnswersAreCorrect);
+  }
+
+  /**
+   * if there is at least one checked checkbox, enable answer button
+   * @param {object} evt
+   */
+  checkAnswerEnabled(evt) {
+    if (evt.target.getAttribute('name') === 'answer') {
+      this.checkedAnswerOptions = this.element.querySelectorAll('.genre-answer input:checked');
+      if ( this.checkedAnswerOptions.length === 0) {
+        this.answerButton.disabled = true;
+      } else {
+        this.answerButton.disabled = false;
+      }
+    }
+  }
 
   bindHandlers() {
+    this.answerButton = this.element.querySelector('.genre-answer-send');
 
     const elements = this.element.querySelectorAll('.player-wrapper');
-    let del = [];
     for (const item of elements) {
-      const newDel = player(item, this.inputData.answers[del.length].src, false, true);
-      del.push(newDel);
+      const newDel = player(item, this.inputData.answers[this.deletePlayers.length].src, false, true);
+      this.deletePlayers.push(newDel);
     }
 
     /**
      * locating and disabling answer button by default
      */
-    const answerButton = this.element.querySelector('.genre-answer-send');
-    answerButton.disabled = true;
+    this.answerButton.disabled = true;
+    this.checkedAnswerOptions = [];
+    this.answerBlock = this.element.querySelector('.genre');
 
-    let checkedAnswerOptions = [];
+    this.answerBlock.addEventListener('change', this.checkAnswerEnabled);
+    this.answerButton.addEventListener('click', this.selectGenre);
+  }
 
-    /**
-     * if there is at least one checked checkbox, enable answer button
-     */
-    const checkAnswered = () => {
-      checkedAnswerOptions = this.element.querySelectorAll('.genre-answer input:checked');
-      if ( checkedAnswerOptions.length === 0) {
-        answerButton.disabled = true;
-      } else {
-        answerButton.disabled = false;
-      }
-    };
-
-    const answerBlock = this.element.querySelector('.genre');
-
-    /**
-     * event listener for any checkbox state change;
-     */
-    answerBlock.addEventListener('change', (evt) => {
-      if (evt.target.getAttribute('name') === 'answer') {
-        checkAnswered();
-      }
-    });
-
-    /**
-     * event listener for mouse click on answer button;
-     * if button is enabled, next question is rendered
-     * and all form elements state is set to default
-     */
-    answerButton.addEventListener('click', (evt) => {
-      evt.preventDefault();
-      let allAnswersAreCorrect = true;
-      const allOptions = this.element.querySelectorAll('.genre-answer input');
-      const genre = this.inputData.genre;
-
-      for (const item of allOptions) {
-        let selectedGenre = this.inputData.answers[item.value].genre;
-        if ( (item.checked && (selectedGenre !== genre) ) ||
-          (!item.checked && (selectedGenre === genre) ) ) {
-          allAnswersAreCorrect = false;
-        }
-        item.checked = false;
-      }
-      answerButton.disabled = true;
-      for (const item of del) {
-        item();
-      }
-      GamePresenter.questionRouter(allAnswersAreCorrect);
+  clearHandlers() {
+    this.answerButton.removeEventListener('click', this.selectGenre);
+    this.answerBlock.removeEventListener('change', this.checkAnswerEnabled);
+    this.deletePlayers.forEach((item) => {
+      item();
     });
   }
 }
