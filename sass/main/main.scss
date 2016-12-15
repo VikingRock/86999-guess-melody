@@ -37,6 +37,11 @@
   display: block;
   font: italic 300 2em $font;
   margin: 0 0 0.2em;
+
+  &.title--load {
+    color: $color-orange;
+    margin-bottom: 80px;
+  }
 }
 
 .text {
@@ -44,6 +49,10 @@
   display: block;
   font: 300 0.9em $font;
   margin: 0 0 1em;
+}
+
+.reload {
+  margin-top: -100px;
 }
 
 @import "--level/main--level";

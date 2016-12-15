@@ -1,4 +1,4 @@
-import animate, {getAnimation} from './animate';
+import animate, {getAnimation} from './timer-new/animate';
 
 
 const updateState = (element, player) => {
