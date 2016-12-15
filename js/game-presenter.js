@@ -1,4 +1,4 @@
-import {questions, result, statistics} from './data/game-data';
+import {result, statistics} from './data/game-data';
 import view from 'view';
 import GameModel from 'data/game-model';
 import Application from 'application';
@@ -8,10 +8,14 @@ class GamePresenter {
   constructor(model = GameModel) {
     this.model = model;
     this.timer = document.querySelector('.timer-wrapper');
-    this.questionsCount = questions.length;
 
     this.goToResults = this.goToResults.bind(this);
     this.tick = this.tick.bind(this);
+  }
+
+  setQuestions(questions) {
+    this.questions = questions;
+    this.questionsCount = questions.length;
   }
 
   /**
@@ -93,7 +97,7 @@ class GamePresenter {
 
     this.timer.classList.remove('invisible');
     window.stopFn = window.initializeCountdown(this.model.maxTime);
-    this.switchToNext(0, questions);
+    this.switchToNext(0, this.questions);
   }
 
   /**
@@ -132,7 +136,7 @@ class GamePresenter {
       this.goToResults();
 
     } else {
-      this.switchToNext(this.model.currentQuestion, questions);
+      this.switchToNext(this.model.currentQuestion, this.questions);
     }
   }
 }

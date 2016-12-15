@@ -11,6 +11,7 @@ export default class Application {
   }
 
   static showGame() {
+    GamePresenter.setQuestions(gameData);
     GamePresenter.gameStart();
   }
 
