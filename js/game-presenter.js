@@ -1,17 +1,27 @@
-import {questions, result, statistics} from './data/game-data';
+import {result, statistics} from './data/game-data';
 import view from 'view';
 import GameModel from 'data/game-model';
 import Application from 'application';
+import timer from 'timer/timer';
+
 
 class GamePresenter {
 
   constructor(model = GameModel) {
     this.model = model;
     this.timer = document.querySelector('.timer-wrapper');
-    this.questionsCount = questions.length;
 
     this.goToResults = this.goToResults.bind(this);
     this.tick = this.tick.bind(this);
+  }
+
+  /**
+   * sets questions for the game
+   * @param {array} questions
+   */
+  setQuestions(questions) {
+    this.questions = questions;
+    this.questionsCount = questions.length;
   }
 
   /**
@@ -88,12 +98,11 @@ class GamePresenter {
   gameStart() {
     this.model.resetState();
 
-    document.body.addEventListener('timer-end', this.goToResults, false);
+    this.stopFn = timer(this.model.maxTime, this.goToResults);
     document.body.addEventListener('timer-tick', this.tick, false);
 
     this.timer.classList.remove('invisible');
-    window.stopFn = window.initializeCountdown(this.model.maxTime);
-    this.switchToNext(0, questions);
+    this.switchToNext(0, this.questions);
   }
 
   /**
@@ -101,8 +110,7 @@ class GamePresenter {
    */
   goToResults() {
     result.stats = this.calcStats(statistics, this.model.correctQuestions, this.model.time);
-    window.stopFn();
-    document.body.removeEventListener('timer-end', this.goToResults);
+    this.stopFn();
     document.body.removeEventListener('timer-tick', this.tick);
     Application.showStats();
   }
@@ -132,7 +140,7 @@ class GamePresenter {
       this.goToResults();
 
     } else {
-      this.switchToNext(this.model.currentQuestion, questions);
+      this.switchToNext(this.model.currentQuestion, this.questions);
     }
   }
 }

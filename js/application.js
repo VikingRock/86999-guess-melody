@@ -2,6 +2,8 @@ import view from 'view';
 import {TYPES, welcome, result} from 'data/game-data';
 import GamePresenter from './game-presenter';
 
+let gameData;
+
 export default class Application {
 
   static showWelcome() {
@@ -9,6 +11,7 @@ export default class Application {
   }
 
   static showGame() {
+    GamePresenter.setQuestions(gameData);
     GamePresenter.gameStart();
   }
 
@@ -16,4 +19,11 @@ export default class Application {
     view(TYPES.RESULT, result);
   }
 
+  static showError(error) {
+    view(TYPES.ERROR, error);
+  }
+
+  static set data(data) {
+    gameData = data;
+  }
 }

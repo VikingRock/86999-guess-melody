@@ -1,4 +1,4 @@
-import animate, {getAnimation} from './animate';
+import animate, {getAnimation} from 'timer/animate';
 
 
 const updateState = (element, player) => {
@@ -17,7 +17,7 @@ const switchState = (state, player, element) => {
     player.play();
     state.stopAnimation = animate(
         getAnimation(player.currentTime, 1000, player.duration),
-        animation => updateState(element, player));
+        (animation) => updateState(element, player));
   } else {
     player.pause();
     state.stopAnimation();
