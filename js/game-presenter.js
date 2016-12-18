@@ -1,11 +1,7 @@
-import {result} from './data/game-data';
 import view from 'view';
 import GameModel from 'data/game-model';
-import Application from 'application';
 import timer from 'timer/timer';
-
-const restURL = 'https://intensive-ecmascript-server-zevreglhzz.now.sh/guess-melody/stats/';
-const userId = '86999';
+import {getStats, setStats} from 'stats-service';
 
 class GamePresenter {
 
@@ -37,57 +33,6 @@ class GamePresenter {
   }
 
   /**
-   * formats time to minutes and seconds notation
-   * @param {number} seconds
-   * @return {object} minutes and seconds
-   */
-  formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    seconds = seconds % 60;
-    return {minutes, seconds};
-  }
-
-  /**
-   * calculates statistics based on user progress
-   * and compares user results with an array of previous results
-   * @param {array} stats
-   * @param {number} points
-   * @param {number} time - raw time in seconds
-   * @param {object} fTime - formatted time in minutes abd seconds
-   * @return {object} stats
-   */
-  calcStats(stats, points, time, fTime) {
-    let newStats = JSON.parse(JSON.stringify(stats));
-    const currentResult = {
-      time: time,
-      answers: points,
-      recent: true
-    };
-    newStats.push(currentResult);
-    const totalResultsNum = newStats.length;
-    let currentGamePlace = totalResultsNum;
-
-    newStats.sort((a, b) => {
-      if (a.answers === b.answers) {
-        return a.time - b.time;
-      }
-      return b.answers - a.answers;
-    });
-
-    newStats.find((el, idx) => {
-      if (el.recent === true) {
-        currentGamePlace = idx + 1;
-        return true;
-      }
-      return false;
-    });
-
-    const successPercent = Math.round((totalResultsNum - currentGamePlace) / totalResultsNum * 100);
-
-    return {time: fTime, correctAnswers: currentResult.answers, percents: successPercent};
-  }
-
-  /**
    * increases time by one second
    */
   tick() {
@@ -109,61 +54,11 @@ class GamePresenter {
   }
 
   /**
-   * uploads current game's results to server
-   * @param {object} newRecord - time and answers
-   */
-  setStats(newRecord) {
-    fetch(restURL + userId,
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify(newRecord)
-      })
-        .then((res) => {
-          // alert(res.status);
-        })
-        .catch((res) => {
-          // alert(res.status);
-        });
-  }
-
-  /**
-   * download statistics from server
-   * and call the callback
-   * @param {function} calcStats
-   */
-  getStats() {
-    const formattedTime = this.formatTime(this.model.time);
-
-    fetch(restURL + userId,
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        method: 'GET'
-      })
-        .then((res) => {
-          return res.json();
-        })
-        .then((json) => {
-          result.stats = this.calcStats(json, this.model.correctQuestions, this.model.time, formattedTime);
-          Application.showStats();
-          this.setStats({time: this.model.time, answers: this.model.correctQuestions});
-          result.stats.percent = false;
-        })
-        .catch((res) => {
-          result.stats.time = formattedTime;
-          Application.showStats();
-        });
-  }
-
-  /**
    * calling results and removing timer
    */
   goToResults() {
-    this.getStats();
+    getStats(this.model.time, this.model.correctQuestions);
+    setStats({time: this.model.time, answers: this.model.correctQuestions});
     this.stopFn();
     document.body.removeEventListener('timer-tick', this.tick);
   }
