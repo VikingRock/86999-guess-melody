@@ -9,17 +9,24 @@ class ResultView extends AbstractView {
 
   getMarkup() {
     const logo = `<section class="logo" title="${this.inputData.gameName}"><h1>${this.inputData.gameName}</h1></section>`;
+    let percents;
+
+    if (this.inputData.stats.percents !== false) {
+      percents = `<span class="main-comparison">Это лучше чем у ${this.inputData.stats.percents}% игроков</span>`;
+    } else {
+      percents = '<span class="main-comparison">Статистика сервера недоступна</span>';
+    }
 
     const content = `<h2 class="title">${this.inputData.content.title}</h2>
     <div class="main-stat">За ${this.inputData.stats.time.minutes} минут ${this.inputData.stats.time.seconds} секунд
-    <br>вы отгадали ${this.inputData.stats.correctAnswers} мелодии</div>
-    <span class="main-comparison">Это лучше чем у ${this.inputData.stats.percents}% игроков</span>`;
+    <br>вы отгадали ${this.inputData.stats.correctAnswers} мелодии</div>`;
 
     const button = `<span role="button" tabindex="0" class="main-replay">${this.inputData.replayButton}</span>`;
 
     return `<section class="main main--result">
     ${logo}
     ${content}
+    ${percents}
     ${button}
   </section>`;
   }

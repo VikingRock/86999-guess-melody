@@ -1,9 +1,11 @@
-import {result, statistics} from './data/game-data';
+import {result} from './data/game-data';
 import view from 'view';
 import GameModel from 'data/game-model';
 import Application from 'application';
 import timer from 'timer/timer';
 
+const restURL = 'https://intensive-ecmascript-server-zevreglhzz.now.sh/guess-melody/stats/';
+const userId = '86999';
 
 class GamePresenter {
 
@@ -50,10 +52,11 @@ class GamePresenter {
    * and compares user results with an array of previous results
    * @param {array} stats
    * @param {number} points
-   * @param {number} time
+   * @param {number} time - raw time in seconds
+   * @param {object} fTime - formatted time in minutes abd seconds
    * @return {object} stats
    */
-  calcStats(stats, points, time) {
+  calcStats(stats, points, time, fTime) {
     let newStats = JSON.parse(JSON.stringify(stats));
     const currentResult = {
       time: time,
@@ -81,7 +84,7 @@ class GamePresenter {
 
     const successPercent = Math.round((totalResultsNum - currentGamePlace) / totalResultsNum * 100);
 
-    return {time: this.formatTime(time), correctAnswers: currentResult.answers, percents: successPercent};
+    return {time: fTime, correctAnswers: currentResult.answers, percents: successPercent};
   }
 
   /**
@@ -106,13 +109,40 @@ class GamePresenter {
   }
 
   /**
+   * download statistics from server
+   * and call the callback
+   * @param {function} calcStats
+   */
+  getStats(calcStats) {
+    const formattedTime = this.formatTime(this.model.time);
+
+    fetch(restURL + userId,
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'GET'
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((json) => {
+          result.stats = calcStats(json, this.model.correctQuestions, this.model.time, formattedTime);
+          Application.showStats();
+        })
+        .catch((res) => {
+          result.stats.time = formattedTime;
+          Application.showStats();
+        });
+  }
+
+  /**
    * calling results and removing timer
    */
   goToResults() {
-    result.stats = this.calcStats(statistics, this.model.correctQuestions, this.model.time);
+    this.getStats(this.calcStats, this.formatTime);
     this.stopFn();
     document.body.removeEventListener('timer-tick', this.tick);
-    Application.showStats();
   }
 
   /**

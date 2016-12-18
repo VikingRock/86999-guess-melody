@@ -20,7 +20,7 @@ export const result = {
   stats: {
     time: 2,
     correctAnswers: 4,
-    percents: 80
+    percents: false
   },
   replayButton: 'Сыграть ещё раз'
 };
@@ -53,3 +53,23 @@ export const statistics = [
   {time: 16, answers: 2, recent: false},
   {time: 35, answers: 0, recent: false}
 ];
+
+const restURL = 'https://intensive-ecmascript-server-zevreglhzz.now.sh/guess-melody/stats/';
+const userId = '86999';
+
+export const setStats = (newRecord) => {
+  fetch(restURL + userId,
+    {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(newRecord)
+    })
+      .then(function(res) {
+        console.log(res);
+      })
+      .catch(function(res){
+        console.log(res);
+      });
+};
