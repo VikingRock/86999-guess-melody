@@ -109,11 +109,32 @@ class GamePresenter {
   }
 
   /**
+   * uploads current game's results to server
+   * @param {object} newRecord - time and answers
+   */
+  setStats(newRecord) {
+    fetch(restURL + userId,
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(newRecord)
+      })
+        .then((res) => {
+          // alert(res.status);
+        })
+        .catch((res) => {
+          // alert(res.status);
+        });
+  }
+
+  /**
    * download statistics from server
    * and call the callback
    * @param {function} calcStats
    */
-  getStats(calcStats) {
+  getStats() {
     const formattedTime = this.formatTime(this.model.time);
 
     fetch(restURL + userId,
@@ -127,8 +148,10 @@ class GamePresenter {
           return res.json();
         })
         .then((json) => {
-          result.stats = calcStats(json, this.model.correctQuestions, this.model.time, formattedTime);
+          result.stats = this.calcStats(json, this.model.correctQuestions, this.model.time, formattedTime);
           Application.showStats();
+          this.setStats({time: this.model.time, answers: this.model.correctQuestions});
+          result.stats.percent = false;
         })
         .catch((res) => {
           result.stats.time = formattedTime;
@@ -140,7 +163,7 @@ class GamePresenter {
    * calling results and removing timer
    */
   goToResults() {
-    this.getStats(this.calcStats, this.formatTime);
+    this.getStats();
     this.stopFn();
     document.body.removeEventListener('timer-tick', this.tick);
   }
