@@ -20,7 +20,7 @@ export const result = {
   stats: {
     time: 2,
     correctAnswers: 4,
-    percents: 80
+    percents: false
   },
   replayButton: 'Сыграть ещё раз'
 };
@@ -39,17 +39,3 @@ export const welcome = {
   },
   playButton: 'Начать игру'
 };
-
-/**
- * stats of previous games
- */
-export const statistics = [
-  {time: 81, answers: 8, recent: false},
-  {time: 80, answers: 9, recent: false},
-  {time: 92, answers: 10, recent: false},
-  {time: 120, answers: 5, recent: false},
-  {time: 104, answers: 3, recent: false},
-  {time: 110, answers: 7, recent: false},
-  {time: 16, answers: 2, recent: false},
-  {time: 35, answers: 0, recent: false}
-];
