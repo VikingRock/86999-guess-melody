@@ -64,7 +64,8 @@ class GamePresenter {
   goToResults() {
     const formattedTime = formatTime(this.model.time);
     getStats(this.model.correctQuestions, this.model.time, formattedTime)
-        .then((statsArr) => {
+        .then((resultStats) => {
+          result.stats = resultStats;
           Application.showStats();
         })
         .catch((res) => {

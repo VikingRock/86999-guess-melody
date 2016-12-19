@@ -1,5 +1,3 @@
-import {result} from './data/game-data';
-
 const restURL = 'https://intensive-ecmascript-server-zevreglhzz.now.sh/guess-melody/stats/';
 const userId = '86999';
 
@@ -75,7 +73,7 @@ export const getStats = (gameQuestions, gameTime, fTime) => {
         return res.json();
       })
       .then((statsArr) => {
-        result.stats = calcStats(statsArr, gameQuestions, gameTime, fTime);
+        return calcStats(statsArr, gameQuestions, gameTime, fTime);
       });
 };
 
