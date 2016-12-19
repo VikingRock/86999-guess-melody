@@ -1,6 +1,3 @@
-import {result} from './data/game-data';
-import Application from 'application';
-
 const restURL = 'https://intensive-ecmascript-server-zevreglhzz.now.sh/guess-melody/stats/';
 const userId = '86999';
 
@@ -9,7 +6,7 @@ const userId = '86999';
  * @param {number} seconds
  * @return {object} minutes and seconds
  */
-const formatTime = (seconds) => {
+export const formatTime = (seconds) => {
   const minutes = Math.floor(seconds / 60);
   seconds = seconds % 60;
   return {minutes, seconds};
@@ -24,7 +21,7 @@ const formatTime = (seconds) => {
  * @param {object} fTime - formatted time in minutes abd seconds
  * @return {object} stats
  */
-const calcStats = (stats, points, time, fTime) => {
+export const calcStats = (stats, points, time, fTime) => {
   let newStats = JSON.parse(JSON.stringify(stats));
   const currentResult = {
     time: time,
@@ -58,13 +55,11 @@ const calcStats = (stats, points, time, fTime) => {
 /**
  * download statistics from server
  * and call the callback
- * @param {number} gameTime
- * @param {number} gameAnswers
+ * @return {object} promise
  */
-export const getStats = (gameTime, gameAnswers) => {
-  const formattedTime = formatTime(gameTime);
+export const getStats = () => {
 
-  fetch(restURL + userId,
+  return fetch(restURL + userId,
     {
       headers: {
         'Content-Type': 'application/json'
@@ -73,15 +68,6 @@ export const getStats = (gameTime, gameAnswers) => {
     })
       .then((res) => {
         return res.json();
-      })
-      .then((json) => {
-        result.stats = calcStats(json, gameAnswers, gameTime, formattedTime);
-        Application.showStats();
-        result.stats.percent = false;
-      })
-      .catch((res) => {
-        result.stats.time = formattedTime;
-        Application.showStats();
       });
 };
 
@@ -99,7 +85,7 @@ const displayUploadStatus = (text) => {
   setTimeout(() => {
     const elem = document.body.querySelector('.server-upload');
     elem.parentNode.removeChild(elem);
-  }, 2000);
+  }, 3000);
 };
 
 /**

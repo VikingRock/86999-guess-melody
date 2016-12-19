@@ -1,7 +1,9 @@
 import view from 'view';
 import GameModel from 'data/game-model';
 import timer from 'timer/timer';
-import {getStats, setStats} from 'stats-service';
+import {getStats, setStats, calcStats, formatTime} from 'stats-service';
+import {result} from './data/game-data';
+import Application from 'application';
 
 class GamePresenter {
 
@@ -54,10 +56,22 @@ class GamePresenter {
   }
 
   /**
+   * downloading statistics, calculating current results,
+   *
    * calling results and removing timer
    */
   goToResults() {
-    getStats(this.model.time, this.model.correctQuestions);
+    const formattedTime = formatTime(this.model.time);
+    getStats()
+        .then((statsArr) => {
+          result.stats = calcStats(statsArr, this.model.correctQuestions, this.model.time, formattedTime);
+          Application.showStats();
+          result.stats.percent = false;
+        })
+        .catch((res) => {
+          result.stats.time = formattedTime;
+          Application.showStats();
+        });
     setStats({time: this.model.time, answers: this.model.correctQuestions});
     this.stopFn();
     document.body.removeEventListener('timer-tick', this.tick);
