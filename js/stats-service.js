@@ -1,3 +1,5 @@
+import {result} from './data/game-data';
+
 const restURL = 'https://intensive-ecmascript-server-zevreglhzz.now.sh/guess-melody/stats/';
 const userId = '86999';
 
@@ -55,9 +57,12 @@ export const calcStats = (stats, points, time, fTime) => {
 /**
  * download statistics from server
  * and call the callback
+ * @param {number} gameQuestions
+ * @param {number} gameTime
+ * @param {object} fTime
  * @return {object} promise
  */
-export const getStats = () => {
+export const getStats = (gameQuestions, gameTime, fTime) => {
 
   return fetch(restURL + userId,
     {
@@ -68,6 +73,9 @@ export const getStats = () => {
     })
       .then((res) => {
         return res.json();
+      })
+      .then((statsArr) => {
+        result.stats = calcStats(statsArr, gameQuestions, gameTime, fTime);
       });
 };
 

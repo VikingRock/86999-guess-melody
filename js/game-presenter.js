@@ -1,7 +1,7 @@
 import view from 'view';
 import GameModel from 'data/game-model';
 import timer from 'timer/timer';
-import {getStats, setStats, calcStats, formatTime} from 'stats-service';
+import {getStats, setStats, formatTime} from 'stats-service';
 import {result} from './data/game-data';
 import Application from 'application';
 
@@ -47,6 +47,7 @@ class GamePresenter {
    */
   gameStart() {
     this.model.resetState();
+    result.stats.percent = false;
 
     this.stopFn = timer(this.model.maxTime, this.goToResults);
     document.body.addEventListener('timer-tick', this.tick, false);
@@ -62,11 +63,9 @@ class GamePresenter {
    */
   goToResults() {
     const formattedTime = formatTime(this.model.time);
-    getStats()
+    getStats(this.model.correctQuestions, this.model.time, formattedTime)
         .then((statsArr) => {
-          result.stats = calcStats(statsArr, this.model.correctQuestions, this.model.time, formattedTime);
           Application.showStats();
-          result.stats.percent = false;
         })
         .catch((res) => {
           result.stats.time = formattedTime;
