@@ -35,7 +35,7 @@ class GamePresenter {
   }
 
   /**
-   * increases time by one second
+   * increases game time by one second
    */
   tick() {
     this.model.time++;
@@ -43,7 +43,8 @@ class GamePresenter {
 
   /**
    * First invocation of presenter,
-   * it starts timer and adds event listeners
+   * it starts timer and adds event listeners,
+   * switches to first question
    */
   gameStart() {
     this.model.resetState();
@@ -57,9 +58,9 @@ class GamePresenter {
   }
 
   /**
-   * downloading statistics, calculating current results,
-   *
-   * calling results and removing timer
+   * downloads statistics, calls current stats calculations,
+   * uploads stats to server,
+   * calls results screen and removes timer
    */
   goToResults() {
     const formattedTime = formatTime(this.model.time);

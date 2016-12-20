@@ -5,6 +5,7 @@ class WelcomeView extends AbstractView {
 
   constructor(inputData) {
     super(inputData);
+    this.startGame = this.startGame.bind(this);
   }
 
   getMarkup() {
@@ -23,16 +24,22 @@ class WelcomeView extends AbstractView {
   </section>`;
   }
 
+  startGame() {
+    this.clearHandlers();
+    Application.showGame();
+  }
 
   bindHandlers() {
-    const playButton = this.element.querySelector('.main-play');
+    this.playButton = this.element.querySelector('.main-play');
     /**
      * event listener for mouse click on play button
      * when clicked, the first question is rendered
      */
-    playButton.addEventListener('click', () => {
-      Application.showGame();
-    });
+    this.playButton.addEventListener('click', this.startGame);
+  }
+
+  clearHandlers() {
+    this.playButton.removeEventListener('click', this.startGame);
   }
 }
 
