@@ -53,8 +53,8 @@ export const calcStats = (stats, points, time, fTime) => {
 };
 
 /**
- * download statistics from server
- * and call the callback
+ * downloads statistics from server
+ * and returns a promise with calculated statistics
  * @param {number} gameQuestions
  * @param {number} gameTime
  * @param {object} fTime
@@ -96,6 +96,7 @@ const displayUploadStatus = (text) => {
 
 /**
  * uploads current game's results to server
+ * and displays the upload status
  * @param {object} newRecord - time and answers
  */
 export const setStats = (newRecord) => {

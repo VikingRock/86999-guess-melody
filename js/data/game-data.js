@@ -18,8 +18,8 @@ export const result = {
     title: 'Вы настоящий меломан!'
   },
   stats: {
-    time: 2,
-    correctAnswers: 4,
+    time: null,
+    correctAnswers: null,
     percents: false
   },
   replayButton: 'Сыграть ещё раз'
