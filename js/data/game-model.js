@@ -6,10 +6,6 @@ class GameModel {
     this._defaultState = state;
   }
 
-  resetState() {
-    Object.assign(this._state, this._defaultState);
-  }
-
   set time(time) {
     this._state = setTime(this._state, time);
   }
@@ -44,6 +40,10 @@ class GameModel {
 
   get maxTime() {
     return this._state.maxTime;
+  }
+
+  resetState() {
+    Object.assign(this._state, this._defaultState);
   }
 }
 

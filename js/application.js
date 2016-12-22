@@ -6,6 +6,10 @@ let gameData;
 
 export default class Application {
 
+  static set data(data) {
+    gameData = data;
+  }
+
   static showWelcome() {
     view(TYPES.WELCOME, welcome);
   }
@@ -21,9 +25,5 @@ export default class Application {
 
   static showError(error) {
     view(TYPES.ERROR, error);
-  }
-
-  static set data(data) {
-    gameData = data;
   }
 }
