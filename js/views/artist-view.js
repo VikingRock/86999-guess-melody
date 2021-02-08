@@ -6,7 +6,7 @@ class ArtistView extends AbstractView {
 
   constructor(inputData) {
     super(inputData);
-    this.selectArtist = this.selectArtist.bind(this);
+    this._selectArtist = this._selectArtist.bind(this);
   }
 
   /**
@@ -15,7 +15,7 @@ class ArtistView extends AbstractView {
    * @param {object} data - contains option's image and name
    * @return {string} rendered html
    */
-  renderOption(index, data) {
+  _renderOption(index, data) {
     return `<div class="main-answer-wrapper">
           <input class="main-answer-r" type="radio" id="answer-${index}" name="answer" value="${index}" />
           <label class="main-answer" for="answer-${index}">
@@ -23,6 +23,21 @@ class ArtistView extends AbstractView {
             ${data.title}
           </label>
         </div>`;
+  }
+
+  /**
+   * event listener for mouse click on artist element
+   * when clicked, the next question is rendered
+   * @param {object} evt
+   */
+  _selectArtist(evt) {
+    const choice = evt.target;
+    if (!choice.classList.contains('main-answer-r')) {
+      return;
+    }
+    const qResult = this.inputData.answers[choice.value].isCorrect;
+    this.clearHandlers();
+    GamePresenter.questionRouter(qResult);
   }
 
   getMarkup() {
@@ -34,39 +49,24 @@ class ArtistView extends AbstractView {
       <div class="player-wrapper"></div>
       <form class="main-list">
         ${this.inputData.answers
-            .map((item, idx) => this.renderOption(idx, item))
+            .map((item, idx) => this._renderOption(idx, item))
             .join('')}
       </form>
       </div>
     </section>`;
   }
 
-  /**
-   * event listener for mouse click on artist element
-   * when clicked, the next question is rendered
-   * @param {object} evt
-   */
-  selectArtist(evt) {
-    const choice = evt.target;
-    if (!choice.classList.contains('main-answer-r')) {
-      return;
-    }
-    const qResult = this.inputData.answers[choice.value].isCorrect;
-    this.clearHandlers();
-    GamePresenter.questionRouter(qResult);
-  }
-
   bindHandlers() {
-    this.answerList = this.element.querySelector('.main-list');
+    this._answerList = this.element.querySelector('.main-list');
     const element = this.element.querySelector('.player-wrapper');
 
-    this.deletePlayer = player(element, this.inputData.src, true, true);
-    this.answerList.addEventListener('change', this.selectArtist);
+    this._deletePlayer = player(element, this.inputData.src, true, true);
+    this._answerList.addEventListener('change', this._selectArtist);
   }
 
   clearHandlers() {
-    this.deletePlayer();
-    this.answerList.removeEventListener('change', this.selectArtist);
+    this._deletePlayer();
+    this._answerList.removeEventListener('change', this._selectArtist);
   }
 }
 

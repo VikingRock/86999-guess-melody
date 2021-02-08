@@ -5,6 +5,12 @@ class ResultView extends AbstractView {
 
   constructor(inputData) {
     super(inputData);
+    this._replay = this._replay.bind(this);
+  }
+
+  _replay() {
+    this.clearHandlers();
+    Application.showGame();
   }
 
   getMarkup() {
@@ -31,17 +37,18 @@ class ResultView extends AbstractView {
   </section>`;
   }
 
-
   bindHandlers() {
-    const replayButton = this.element.querySelector('.main-replay');
+    this._replayButton = this.element.querySelector('.main-replay');
 
     /**
-     * event listener for mouse click on replay button;
+     * event listener for mouse click on _replay button;
      * if clicked, welcome page is rendered
      */
-    replayButton.addEventListener('click', () => {
-      Application.showGame();
-    });
+    this._replayButton.addEventListener('click', this._replay);
+  }
+
+  clearHandlers() {
+    this._replayButton.removeEventListener('click', this._replay);
   }
 }
 

@@ -6,9 +6,9 @@ class GenreView extends AbstractView {
 
   constructor(inputData) {
     super(inputData);
-    this.selectGenre = this.selectGenre.bind(this);
-    this.checkAnswerEnabled = this.checkAnswerEnabled.bind(this);
-    this.deletePlayers = [];
+    this._selectGenre = this._selectGenre.bind(this);
+    this._checkAnswerEnabled = this._checkAnswerEnabled.bind(this);
+    this._deletePlayers = [];
   }
 
   /**
@@ -16,24 +16,12 @@ class GenreView extends AbstractView {
    * @param {number} index
    * @return {string} rendered html
    */
-  renderOption(index) {
+  _renderOption(index) {
     return `<div class="genre-answer">
         <div class="player-wrapper"></div>
         <input type="checkbox" name="answer" value="${index}" id="a-${index}">
         <label class="genre-answer-check" for="a-${index}"></label>
       </div>`;
-  }
-
-  getMarkup() {
-    return `<section class="main main--level main--level-genre">
-    <h2 class="title">${this.inputData.question}</h2>
-    <form class="genre">
-      ${this.inputData.answers
-          .map((item, idx) => this.renderOption(idx))
-          .join('')}
-      <button class="genre-answer-send" type="submitButton">Ответить</button>
-    </form>
-  </section>`;
   }
 
   /**
@@ -42,7 +30,7 @@ class GenreView extends AbstractView {
    * and all form elements state is set to default
    * @param {object} evt
    */
-  selectGenre(evt) {
+  _selectGenre(evt) {
     evt.preventDefault();
     let allAnswersAreCorrect = true;
     const allOptions = this.element.querySelectorAll('.genre-answer input');
@@ -56,7 +44,7 @@ class GenreView extends AbstractView {
       }
       item.checked = false;
     }
-    this.answerButton.disabled = true;
+    this._answerButton.disabled = true;
     this.clearHandlers();
     GamePresenter.questionRouter(allAnswersAreCorrect);
   }
@@ -65,41 +53,53 @@ class GenreView extends AbstractView {
    * if there is at least one checked checkbox, enable answer button
    * @param {object} evt
    */
-  checkAnswerEnabled(evt) {
+  _checkAnswerEnabled(evt) {
     if (evt.target.getAttribute('name') === 'answer') {
-      this.checkedAnswerOptions = this.element.querySelectorAll('.genre-answer input:checked');
-      if ( this.checkedAnswerOptions.length === 0) {
-        this.answerButton.disabled = true;
+      this._checkedAnswerOptions = this.element.querySelectorAll('.genre-answer input:checked');
+      if ( this._checkedAnswerOptions.length === 0) {
+        this._answerButton.disabled = true;
       } else {
-        this.answerButton.disabled = false;
+        this._answerButton.disabled = false;
       }
     }
   }
 
+  getMarkup() {
+    return `<section class="main main--level main--level-genre">
+    <h2 class="title">${this.inputData.question}</h2>
+    <form class="genre">
+      ${this.inputData.answers
+          .map((item, idx) => this._renderOption(idx))
+          .join('')}
+      <button class="genre-answer-send" type="submitButton">Ответить</button>
+    </form>
+  </section>`;
+  }
+
   bindHandlers() {
-    this.answerButton = this.element.querySelector('.genre-answer-send');
+    this._answerButton = this.element.querySelector('.genre-answer-send');
 
     const elements = this.element.querySelectorAll('.player-wrapper');
     for (const item of elements) {
-      const newDel = player(item, this.inputData.answers[this.deletePlayers.length].src, false, true);
-      this.deletePlayers.push(newDel);
+      const newDel = player(item, this.inputData.answers[this._deletePlayers.length].src, false, true);
+      this._deletePlayers.push(newDel);
     }
 
     /**
      * locating and disabling answer button by default
      */
-    this.answerButton.disabled = true;
-    this.checkedAnswerOptions = [];
-    this.answerBlock = this.element.querySelector('.genre');
+    this._answerButton.disabled = true;
+    this._checkedAnswerOptions = [];
+    this._answerBlock = this.element.querySelector('.genre');
 
-    this.answerBlock.addEventListener('change', this.checkAnswerEnabled);
-    this.answerButton.addEventListener('click', this.selectGenre);
+    this._answerBlock.addEventListener('change', this._checkAnswerEnabled);
+    this._answerButton.addEventListener('click', this._selectGenre);
   }
 
   clearHandlers() {
-    this.answerButton.removeEventListener('click', this.selectGenre);
-    this.answerBlock.removeEventListener('change', this.checkAnswerEnabled);
-    this.deletePlayers.forEach((item) => {
+    this._answerButton.removeEventListener('click', this._selectGenre);
+    this._answerBlock.removeEventListener('change', this._checkAnswerEnabled);
+    this._deletePlayers.forEach((item) => {
       item();
     });
   }

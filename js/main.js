@@ -11,7 +11,9 @@ const checkStatus = (response) => {
 
 const parseJSON = (response) => response.json();
 
-window.fetch('https://intensive-ecmascript-server-nnpnvhhedl.now.sh/guess-melody/questions')
+const questionsSource = 'https://intensive-ecmascript-server-nnpnvhhedl.now.sh/guess-melody/questions';
+
+window.fetch(questionsSource)
     .then(checkStatus)
     .then(parseJSON)
     .then((data) => {
@@ -19,4 +21,3 @@ window.fetch('https://intensive-ecmascript-server-nnpnvhhedl.now.sh/guess-melody
     })
     .then(Application.showWelcome)
     .catch(Application.showError);
-

@@ -5,11 +5,17 @@ class WelcomeView extends AbstractView {
 
   constructor(inputData) {
     super(inputData);
+    this._startGame = this._startGame.bind(this);
+  }
+
+  _startGame() {
+    this.clearHandlers();
+    Application.showGame();
   }
 
   getMarkup() {
     const logo = `<section class="logo" title="${this.inputData.gameName}"><h1>${this.inputData.gameName}</h1></section>`;
-    const button = `<button class="main-play">${this.inputData.playButton}</button>`;
+    const button = `<button class="main-play">${this.inputData._playButton}</button>`;
     const content = `
   <h2 class="title main-title">${this.inputData.content.title}</h2>
   <p class="text main-text">
@@ -23,16 +29,17 @@ class WelcomeView extends AbstractView {
   </section>`;
   }
 
-
   bindHandlers() {
-    const playButton = this.element.querySelector('.main-play');
+    this._playButton = this.element.querySelector('.main-play');
     /**
      * event listener for mouse click on play button
      * when clicked, the first question is rendered
      */
-    playButton.addEventListener('click', () => {
-      Application.showGame();
-    });
+    this._playButton.addEventListener('click', this._startGame);
+  }
+
+  clearHandlers() {
+    this._playButton.removeEventListener('click', this._startGame);
   }
 }
 
